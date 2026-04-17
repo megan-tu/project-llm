@@ -38,9 +38,8 @@ class Chat:
     'FileNotFoundError'
     >>> cat('..')
     'Error: unsafe path'
-
     >>> ls('')
-    README.md __pycache__ chat.py encoded.txt pyproject.toml requirements.txt shanghai_communique.chinese.utf8 test_projects tools'
+    'README.md __pycache__ chat.py encoded.txt pyproject.toml requirements.txt shanghai_communique.chinese.utf8 test_projects tools'
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
