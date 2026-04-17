@@ -24,7 +24,7 @@ jobs:
           pip install pytest coverage
       - name: Run doctests
         run: |
-          python -m doctest --verbose lab-llm/chat.py
+          python -m doctest --verbose project-llm/chat.py
       - name: Run tests with coverage
         run: |
           coverage run -m pytest --doctest-modules
