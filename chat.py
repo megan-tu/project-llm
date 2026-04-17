@@ -93,7 +93,7 @@ class Chat:
 
         >>> class FakeToolCall:
         ...     def __init__(self):
-        ...         self.function = type('Func', (), {
+        ...         self.function = type("Func", (), {
         ...             "name": "calculate",
         ...             "arguments": json.dumps({"expression": "123+456"})
         ...         })()
@@ -101,18 +101,31 @@ class Chat:
 
         >>> class FakeMessage:
         ...     def __init__(self):
-        ...         self.tool_calls = None
-        ...         self.content = "Arr, the answer be 579."
-        ...
-        >>> class FakeResponse:
+        ...         self.tool_calls = [FakeToolCall()]
+        ...         self.content = None
+
+        >>> class FakeResponse1:
         ...     def __init__(self):
         ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
-        ...
-        >>> chat = Chat()
-        >>> chat.client.chat.completions.create = lambda *a, **k: FakeResponse()
-        >>> result = chat.send_message("123+456")
-        >>> "579" in result
-        True
+
+        >>> class FakeMessage2:
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "579"
+
+        >>> class FakeResponse2:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage2()})()]
+
+        >>> calls = [FakeResponse1, FakeResponse2]
+
+        >>> def fake_create(*args, **kwargs):
+        ...     return calls.pop(0)()
+
+        >>> chat.client.chat.completions.create = fake_create
+
+        >>> chat.send_message("123+456")
+        '579
 
         >>> chat = Chat()
 

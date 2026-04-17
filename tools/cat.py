@@ -4,6 +4,8 @@ from tools.util import is_path_safe
 def cat(file):
     '''
     Opens a file and outputs its contents as a string.
+    >>> cat('shanghai_communique.chinese.utf8')
+    'UnicodeDecodeError'
     >>> cat('tool.py')
     'FileNotFoundError'
     >>> cat('..')
