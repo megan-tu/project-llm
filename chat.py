@@ -19,7 +19,7 @@ class Chat:
 
     >>> chat = Chat()
     >>> chat.send_message("hello")
-    "Ahoy, matey! What be ye needin' on this fine day? Arr!"
+    'Ahoy, matey! What be on yer mind fer today? Arr!'
     
 
     
@@ -38,7 +38,7 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov pyproject.toml requirements.txt test_projects tools venv'
+    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test test_projects tools venv'
     
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
@@ -219,10 +219,10 @@ def repl(temperature=0.0):
             result = eval(expression)  # Use safe evaluation in production
         except Exception:
             return json.dumps({"error": "Invalid expression"})
-                    "description": "Evaluate a mathematical expression",
-                            "expression": {
-                                "description": "The mathematical expression to evaluate",
-                        "required": ["expression"],
+            "description": "Evaluate a mathematical expression",
+                    "expression": {
+                        "description": "The mathematical expression to evaluate",
+                "required": ["expression"],
     <BLANKLINE>
     chat> /unknown
     Error: unknown command unknown
