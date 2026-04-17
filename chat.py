@@ -22,8 +22,7 @@ class Chat:
     True
 
     >>> chat.send_message("hello")
-    "Ahoy, matey! Ye be speakin' to a salty sea dog. What be yer command,
-    or shall we just hoist the Jolly Roger and chat? Arr!"
+    "Ahoy, matey! Ye be speakin' to a salty sea‑dog. What be the wind blowin' yer way today?"
     >>> chat = Chat()
     >>> calculate('238942 * 109347134')
     '{"result": 26127622892228}'
