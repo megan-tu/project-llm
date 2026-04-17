@@ -1,0 +1,9 @@
+.env
+venv
+__pycache__
+docsum/.coverage
+.pytest_cache
+dist/
+cmc_csci040_MeganTu.egg-info/
+build/lib/
+.coverage
