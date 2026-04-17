@@ -10,6 +10,7 @@ load_dotenv()
 
 # in python, class names are CamelCase
 # non-class names (functions/variables) are in snake_case
+
 class Chat:
     '''
     The Chat class sends messages to an LLM and talks like a pirate.
@@ -22,8 +23,6 @@ class Chat:
     >>> chat.send_message("hello")
     "Ahoy, matey! Ye be speakin' to a salty sea dog. What be yer command,
     or shall we just hoist the Jolly Roger and chat? Arr!"
-    
-    Tool Function Doctests:
     >>> chat = Chat()
     >>> calculate('238942 * 109347134')
     '{"result": 26127622892228}'
@@ -77,12 +76,11 @@ class Chat:
                         "and return the output exactly."),
                 },
             ]
+
     def send_message(self, message, temperature=0.0):
         '''
         Sends a message to the LLM and returns the assistant's response.
-        
         >>> import json
-        
         >>> chat = Chat()
 
         >>> class FakeToolCall:
@@ -106,7 +104,8 @@ class Chat:
         ...     return FakeResponse(FakeMessage(tool_calls=[FakeToolCall()]))
 
         >>> def fake_create_second(*args, **kwargs):
-        ...     return FakeResponse(FakeMessage(content="Arr, the answer be 579."))
+        ...     return FakeResponse(FakeMessage(content="Arr, 
+        ...     the answer be 579."))
 
         >>> calls = [fake_create_first, fake_create_second]
 
@@ -128,9 +127,13 @@ class Chat:
 
         >>> class FakeResponse:
         ...     def __init__(self):
-        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
+        ...         self.choices = [type("Choice", (),
+        ...         {"message": FakeMessage()})()]
 
-        >>> chat.client.chat.completions.create = lambda *a, **k: FakeResponse()
+        >>> def fake_create(*args, **kwargs):
+        ...     return FakeResponse()
+
+        ... chat.client.chat.completions.create = fake_create
 
         >>> result = chat.send_message("hello")
         >>> "no tools" in result.lower()
@@ -175,7 +178,7 @@ class Chat:
                     "role": "tool",
                     "name": function_name,
                     "content": function_response,
-                }) 
+                })
             # Step 4: Get final response from model
             second_response = self.client.chat.completions.create(
                     model=self.MODEL,
@@ -188,7 +191,7 @@ class Chat:
                 'role': 'assistant',
                 'content': result,
             })
-    
+
         else:
             result = chat_completion.choices[0].message.content
             self.messages.append({
@@ -213,7 +216,8 @@ def repl(temperature=0.0):
     ...         return user_input
     ...     except IndexError:
     ...         raise KeyboardInterrupt
-    >>> with patch('builtins.input', monkey_input), patch('chat.Chat') as MockChat:
+    >>> with patch('builtins.input', monkey_input),
+        patch('chat.Chat') as MockChat:
     ...     MockChat.return_value.send_message.return_value = 'Hello!'
     ...     repl()
     chat> Hi
@@ -232,14 +236,13 @@ def repl(temperature=0.0):
             return json.dumps({"error": "Invalid expression"})
             "description": "Evaluate a mathematical expression",
                     "expression": {
-                        "description": "The mathematical expression to evaluate",
+                        "description": ("The mathematical expression to evaluate",
                 "required": ["expression"],
     <BLANKLINE>
     chat> /unknown
     Error: unknown command unknown
     <BLANKLINE>
     '''
-    import readline
     chat = Chat()
     try:
         while True:
@@ -263,7 +266,7 @@ def repl(temperature=0.0):
                     print(output)
                     continue
 
-                elif command =='grep':
+                elif command == 'grep':
                     output = grep(*args)
                     print(output)
                     continue

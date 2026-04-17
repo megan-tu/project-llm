@@ -11,7 +11,7 @@ def ls(folder=None):
     cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project
     megan-tu.github.io pyproject.toml requirements.txt
     test_projects tools venv'
-    
+
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py
     tools/cat.py tools/grep.py tools/ls.py tools/util.py'
