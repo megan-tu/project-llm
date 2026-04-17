@@ -21,8 +21,8 @@ class Chat:
     >>> isinstance(chat, Chat)
     True
 
-    >>> chat.send_message("Hello my name is Bob. What's my name?", temperature=0.0)
-    'Arrr, yer name be Bob, matey!'
+    >>> chat.send_message("Hello my name is Bob. What's my name? Only respond with my name.", temperature=0.0)
+    'Bob'
     >>> chat = Chat()
     >>> calculate('238942 * 109347134')
     '{"result": 26127622892228}'
