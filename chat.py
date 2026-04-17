@@ -18,6 +18,9 @@ class Chat:
     including ls, cat, grep, and calculate.
 
     >>> chat = Chat()
+    >>> isinstance(chat, Chat)
+    True
+
     >>> chat.send_message("hello")
     'Ahoy, matey! What be on yer mind fer today? Arr!'
     
@@ -38,7 +41,7 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test test_projects tools venv'
+    'README.md __pycache__ chat.py pyproject.toml requirements.txt test_projects tools'
     
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
