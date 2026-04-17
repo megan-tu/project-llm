@@ -13,17 +13,16 @@ load_dotenv()
 # non-class names (functions/variables) are in snake_case
 class Chat:
     '''
-    The Chat class sends messages to an LLM and talks like a pirate. It also support tool calling,
-    including ls, cat, grep, and calculate.
+    The Chat class sends messages to an LLM and talks like a pirate.
+    It also support tool calling, including ls, cat, grep, and calculate.
 
     >>> chat = Chat()
     >>> isinstance(chat, Chat)
     True
 
     >>> chat.send_message("hello")
-    "Ahoy, matey! Ye be speakin' to a salty sea dog. What be yer command, or shall we just hoist the Jolly Roger and chat? Arr!"
-    
-
+    "Ahoy, matey! Ye be speakin' to a salty sea dog. What be yer command,
+    or shall we just hoist the Jolly Roger and chat? Arr!"
     
     Tool Function Doctests:
     >>> chat = Chat()
@@ -34,7 +33,8 @@ class Chat:
 
     >>> from unittest.mock import patch, mock_open
     >>> with patch("builtins.open", mock_open()) as m:
-    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, "bad byte")
+    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, 
+    ...     "bad byte")
     ...     cat(".coverage")
     'UnicodeDecodeError'
 
@@ -44,11 +44,13 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test test_projects tools venv'
-    
+    'README.md __pycache__ build chat.py 
+    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project 
+    megan-tu.github.io pyproject.toml requirements.txt test 
+    test_projects tools venv' 
     >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
-
+    'tools/__pycache__ tools/calculate.py tools/cat.py 
+    tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
     'Error: unsafe path'
     >>> ls('/Users/megantu/CSCI040/docsum')
@@ -62,7 +64,8 @@ class Chat:
     client = Groq()
     def __init__(self):
         '''
-        Initializes the chat with default system prompt and tool definitions.
+        Initializes the chat with default system prompt
+        and tool definitions.
         '''
         self.MODEL = 'openai/gpt-oss-120b'
         self.messages = [
