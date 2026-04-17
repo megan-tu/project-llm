@@ -66,10 +66,7 @@ class Chat:
         self.messages = [
             {
                 "role": "system",
-                "content": (
-                    "Talk like pirate. Do not change wording."
-                    "Always use tools to complete tasks"
-                    "and return the output exactly."),
+                "content": "Talk like pirate. Do not change wording. Always use tools to complete tasks and return the output exactly.",
             },
         ]
 
@@ -116,8 +113,8 @@ class Chat:
 
         >>> def fake_create(*args, **kwargs):
         ...     return FakeResponse()
-
-        ... chat.client.chat.completions.create = fake_create
+        >>>
+        >>> chat.client.chat.completions.create = fake_create
 
         >>> result = chat.send_message("hello")
         >>> "no tools" in result.lower()
