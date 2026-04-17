@@ -1,6 +1,6 @@
 # LLM Project
 
-[![doctests](https://github.com/megan-tu/lab-llm/actions/workflows/doctest.yml/badge.svg)](https://github.com/megan-tu/lab-llm/actions/workflows/doctest.yml)
+[![doctests](https://github.com/megan-tu/project-llm/actions/workflows/doctest.yml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/doctest.yml)
 
 [![integration-tests](https://github.com/megan-tu/lab-llm/actions/workflows/integration.yml/badge.svg)](https://github.com/megan-tu/lab-llm/actions/workflows/integration.yml)
 
