@@ -11,6 +11,7 @@ load_dotenv()
 # in python, class names are CamelCase
 # non-class names (functions/variables) are in snake_case
 
+
 class Chat:
     '''
     The Chat class sends messages to an LLM and talks like a pirate.
@@ -104,7 +105,7 @@ class Chat:
         ...     return FakeResponse(FakeMessage(tool_calls=[FakeToolCall()]))
 
         >>> def fake_create_second(*args, **kwargs):
-        ...     return FakeResponse(FakeMessage(content="Arr, 
+        ...     return FakeResponse(FakeMessage(content="Arr,
         ...     the answer be 579."))
 
         >>> calls = [fake_create_first, fake_create_second]
@@ -226,18 +227,9 @@ def repl(temperature=0.0):
     .github/workflows
     chat> /cat tool.py
     FileNotFoundError
-    chat> /grep */calculate.py x.*n
-    def calculate(expression):
-        Evaluate a mathematical expression
+    chat> /grep */calculate.py err.*r
         '{"error": "Invalid expression"}'
         '{"error": "Invalid expression"}'
-            result = eval(expression)  # Use safe evaluation in production
-        except Exception:
-            return json.dumps({"error": "Invalid expression"})
-            "description": "Evaluate a mathematical expression",
-                    "expression": {
-                        "description": ("The mathematical expression to evaluate",
-                "required": ["expression"],
     <BLANKLINE>
     chat> /unknown
     Error: unknown command unknown
