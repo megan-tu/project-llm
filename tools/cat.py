@@ -4,7 +4,7 @@ from tools.util import is_path_safe
 def cat(file):
     '''
     Opens a file and outputs its contents as a string.
-    >>> cat('/Users/megantu/CSCI040/docsum/Trump_tweets_graph.png')
+    >>> cat('CSCI040/docsum/Trump_tweets_graph.png')
     'UnicodeDecodeError'
     >>> cat('tool.py')
     'FileNotFoundError'
