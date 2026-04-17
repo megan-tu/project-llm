@@ -1,30 +1,40 @@
-import os
 import glob
 import re
 from tools.util import is_path_safe
 
+
 def grep(path, regex):
     '''
     Searches files for regex matches and returns matching lines.
-    
     >>> grep('*/ls.py', '[z]')
     ''
     >>> grep('..None', '[z]')
     'Error: unsafe path'
 
     >>> grep('*/calculate.py', 'x.*n')
-    'def calculate(expression):\\n    Evaluate a mathematical expression\\n    \\'{"error": "Invalid expression"}\\'\\n    \\'{"error": "Invalid expression"}\\'\\n        result = eval(expression)  # Use safe evaluation in production\\n    except Exception:\\n        return json.dumps({"error": "Invalid expression"})\\n        "description": "Evaluate a mathematical expression",\\n                "expression": {\\n                    "description": "The mathematical expression to evaluate",\\n            "required": ["expression"],\\n'
+    'def calculate(expression):\\n
+    Evaluate a mathematical expression\\n
+    \\'{"error": "Invalid expression"}\\'\\n
+    \\'{"error": "Invalid expression"}\\'\\n
+    result = eval(expression)  # Use safe evaluation in production\\n
+    except Exception:\\n
+    return json.dumps({"error": "Invalid expression"})\\n
+    "description": "Evaluate a mathematical expression",\\n
+    "expression": {\\n
+    "description": "The mathematical expression to evaluate",\\n
+    "required": ["expression"],\\n'
     '''
     if not is_path_safe(path):
         return "Error: unsafe path"
     result = ''
     if path:
         for path in glob.glob(path):
-            with open (path) as f:
+            with open(path) as f:
                 for line in f:
                     if re.search(regex, line):
                         result += line
         return result
+
 
 grep_schema = {
     "type": "function",
@@ -37,11 +47,11 @@ grep_schema = {
                  "regex": {
                     "type": "string",
                     "description": "The regular expression to search for."
-                },
-                "path": {
-                    "type": "string",
-                    "description": "The path of the file to read."
-                }
+                    },
+                    "path": {
+                        "type": "string",
+                        "description": "The path of the file to read."
+                    }
             },
             "required": ["regex", "path"]
         }

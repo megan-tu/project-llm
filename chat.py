@@ -8,7 +8,6 @@ from tools.grep import grep, grep_schema
 from dotenv import load_dotenv
 load_dotenv()
 
-
 # in python, class names are CamelCase
 # non-class names (functions/variables) are in snake_case
 class Chat:
@@ -33,7 +32,7 @@ class Chat:
 
     >>> from unittest.mock import patch, mock_open
     >>> with patch("builtins.open", mock_open()) as m:
-    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, 
+    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1,
     ...     "bad byte")
     ...     cat(".coverage")
     'UnicodeDecodeError'
@@ -44,12 +43,12 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ build chat.py 
-    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project 
-    megan-tu.github.io pyproject.toml requirements.txt test 
-    test_projects tools venv' 
+    'README.md __pycache__ build chat.py
+    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project
+    megan-tu.github.io pyproject.toml requirements.txt test
+    test_projects tools venv'
     >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py 
+    'tools/__pycache__ tools/calculate.py tools/cat.py
     tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
     'Error: unsafe path'
@@ -62,6 +61,7 @@ class Chat:
     'Error: unsafe path'
     '''
     client = Groq()
+
     def __init__(self):
         '''
         Initializes the chat with default system prompt
@@ -71,7 +71,10 @@ class Chat:
         self.messages = [
                 {
                     "role": "system",
-                    "content": "Talk like pirate. Always use tools to complete tasks and return the output exactly."
+                    "content": (
+                        "Talk like pirate."
+                        "Always use tools to complete tasks"
+                        "and return the output exactly."),
                 },
             ]
     def send_message(self, message, temperature=0.0):
@@ -145,24 +148,21 @@ class Chat:
 
         chat_completion = self.client.chat.completions.create(
             messages=self.messages,
-            #model="llama-3.1-8b-instant",
             model=self.MODEL,
             temperature=temperature,
             seed=0,
             tools=tools,
             tool_choice="auto",
         )
-        
         response_message = chat_completion.choices[0].message
         tool_calls = response_message.tool_calls
-    
         if tool_calls:
             available_functions = {
-            "calculate": calculate,
-            "ls": ls,
-            "cat": cat,
-            "grep": grep,
-        }
+                "calculate": calculate,
+                "ls": ls,
+                "cat": cat,
+                "grep": grep,
+            }
             self.messages.append(response_message)
             for tool_call in tool_calls:
                 function_name = tool_call.function.name
@@ -175,8 +175,7 @@ class Chat:
                     "role": "tool",
                     "name": function_name,
                     "content": function_response,
-                })
-            
+                }) 
             # Step 4: Get final response from model
             second_response = self.client.chat.completions.create(
                     model=self.MODEL,
@@ -198,13 +197,16 @@ class Chat:
             })
         return result
 
+
 def repl(temperature=0.0):
     '''
     Runs an interactive REPL supporting slash commands and LLM chat.
-    Slash commands (/ls, /cat, /grep) can be executed directly without calling the LLM.
+    Slash commands (/ls, /cat, /grep) can be executed directly
+    without calling the LLM.
 
     >>> from unittest.mock import patch
-    >>> def monkey_input(prompt, user_inputs=['Hi','/ls .github', '/cat tool.py', '/grep */calculate.py x.*n', '/unknown']):
+    >>> def monkey_input(prompt, user_inputs=['Hi','/ls .github',
+    '/cat tool.py', '/grep */calculate.py x.*n', '/unknown']):
     ...     try:
     ...         user_input = user_inputs.pop(0)
     ...         print(f'{prompt}{user_input}')
@@ -274,6 +276,7 @@ def repl(temperature=0.0):
             print(response)
     except (KeyboardInterrupt, EOFError):
         print()
+
 
 if __name__ == '__main__':
     repl(temperature=0.0)

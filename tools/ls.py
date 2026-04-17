@@ -7,11 +7,14 @@ def ls(folder=None):
     Lists files in the current directory.
 
     >>> ls('')
-    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test_projects tools venv'
+    'README.md __pycache__ build chat.py
+    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project
+    megan-tu.github.io pyproject.toml requirements.txt
+    test_projects tools venv'
     
     >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
-
+    'tools/__pycache__ tools/calculate.py
+    tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
     'Error: unsafe path'
     >>> ls('/Users/megantu/CSCI040/docsum')
@@ -21,14 +24,13 @@ def ls(folder=None):
         return "Error: unsafe path"
     if folder:
         result = ''
-        # folder + '/*' ==> tools/*
-        # glob is nondeterminsiitc; no guarantees about order
         result = sorted(glob.glob(folder + '/*'))
         return ' '.join(result)
     else:
         result = ''
         result = sorted(glob.glob('*'))
         return ' '.join(result)
+
 
 ls_schema = {
     "type": "function",
