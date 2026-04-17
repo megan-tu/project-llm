@@ -43,13 +43,10 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ build chat.py
-    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project
-    megan-tu.github.io pyproject.toml requirements.txt test
-    test_projects tools venv'
+    'README.md __pycache__ chat.py pyproject.toml
+    requirements.txt test_projects tools'
     >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py
-    tools/grep.py tools/ls.py tools/util.py'
+    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
     'Error: unsafe path'
     >>> ls('/Users/megantu/CSCI040/docsum')
@@ -209,8 +206,7 @@ def repl(temperature=0.0):
     without calling the LLM.
 
     >>> from unittest.mock import patch
-    >>> def monkey_input(prompt, user_inputs=['Hi','/ls .github',
-    '/cat tool.py', '/grep */calculate.py x.*n', '/unknown']):
+    >>> def monkey_input(prompt, user_inputs=['Hi','/ls .github', '/cat tool.py', '/grep */calculate.py x.*n', '/unknown']):
     ...     try:
     ...         user_input = user_inputs.pop(0)
     ...         print(f'{prompt}{user_input}')
