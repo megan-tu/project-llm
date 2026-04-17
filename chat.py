@@ -65,14 +65,14 @@ class Chat:
         '''
         self.MODEL = 'openai/gpt-oss-120b'
         self.messages = [
-                {
-                    "role": "system",
-                    "content": (
-                        "Talk like pirate."
-                        "Always use tools to complete tasks"
-                        "and return the output exactly."),
-                },
-            ]
+            {
+                "role": "system",
+                "content": (
+                    "Talk like pirate."
+                    "Always use tools to complete tasks"
+                    "and return the output exactly."),
+            },
+        ]
 
     def send_message(self, message, temperature=0.0):
         '''
@@ -166,11 +166,11 @@ class Chat:
                 })
             # Step 4: Get final response from model
             second_response = self.client.chat.completions.create(
-                    model=self.MODEL,
-                    messages=self.messages,
-                    tools=tools,
-                    tool_choice="auto",
-                )
+                model=self.MODEL,
+                messages=self.messages,
+                tools=tools,
+                tool_choice="auto",
+            )
             result = second_response.choices[0].message.content
             self.messages.append({
                 'role': 'assistant',

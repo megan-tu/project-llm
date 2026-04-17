@@ -44,14 +44,14 @@ grep_schema = {
         "parameters": {
             "type": "object",
             "properties": {
-                 "regex": {
-                    "type": "string",
-                    "description": "The regular expression to search for."
-                    },
+                "regex": {
+                "type": "string",
+                "description": "The regular expression to search for."
+                },
                  "path": {
-                    "type": "string",
-                    "description": "The path of the file to read."
-                    }
+                "type": "string",
+                "description": "The path of the file to read."
+                }
             },
             "required": ["regex", "path"]
         }
