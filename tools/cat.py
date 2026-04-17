@@ -4,7 +4,7 @@ from tools.util import is_path_safe
 def cat(file):
     '''
     Opens a file and outputs its contents as a string.
-    >>> cat('.coverage')
+    >>> cat('CSCI040/lab-password-cracking/whitehouse_secrets.zip')
     'UnicodeDecodeError'
     >>> cat('tool.py')
     'FileNotFoundError'
