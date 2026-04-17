@@ -4,7 +4,10 @@ from tools.util import is_path_safe
 def cat(file):
     '''
     Opens a file and outputs its contents as a string.
-    >>> cat('Trump_tweets_graph.png')
+    >>> from unittest.mock import patch, mock_open
+    >>> with patch("builtins.open", mock_open()) as m:
+    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, "invalid start byte")
+    ...     cat("fake.txt")
     'UnicodeDecodeError'
     >>> cat('tool.py')
     'FileNotFoundError'
