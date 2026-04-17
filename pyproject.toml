@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cmc-csci040-MeganTu"
+version = "1.0.0"
+description = "An LLM in python that chats like a pirate using a GROQ API key."
+readme = "README.md"
+authors = [{ name = "Megan Tu", email = "mtu@students.pitzer.edu" }]
+requires-python = ">=3.9"
+dependencies = [
+    "groq",
+    "python-dotenv",
+]
+
+[project.scripts]
+chat = "chat:repl"
