@@ -7,11 +7,7 @@ def ls(folder=None):
     Lists files in the current directory.
 
     >>> ls('')
-    'README.md __pycache__ build chat.py
-    cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project
-    megan-tu.github.io pyproject.toml requirements.txt
-    test_projects tools venv'
-
+    'README.md __pycache__ chat.py pyproject.toml requirements.txt test_projects tools'
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py
     tools/cat.py tools/grep.py tools/ls.py tools/util.py'
