@@ -61,7 +61,6 @@ class Chat:
         self.MODEL = 'openai/gpt-oss-120b'
         self.messages = [
                 {
-                    # most important content for sys prompt is length of response
                     "role": "system",
                     "content": "Talk like pirate. Always use tools to complete tasks and return the output exactly."
                 },
