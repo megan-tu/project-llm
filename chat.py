@@ -43,8 +43,7 @@ class Chat:
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ chat.py pyproject.toml
-    requirements.txt test_projects tools'
+    'README.md __pycache__ chat.py pyproject.toml requirements.txt test_projects tools'
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
@@ -90,28 +89,16 @@ class Chat:
         ...         self.id = "1"
 
         >>> class FakeMessage:
-        ...     def __init__(self, tool_calls=None, content=None):
-        ...         self.tool_calls = tool_calls
-        ...         self.content = content
-
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "Arr, the answer be 579."
+        ...
         >>> class FakeResponse:
-        ...     def __init__(self, message):
-        ...         self.choices = [type("Choice", (), {"message": message})()]
-
-        >>> def fake_create_first(*args, **kwargs):
-        ...     return FakeResponse(FakeMessage(tool_calls=[FakeToolCall()]))
-
-        >>> def fake_create_second(*args, **kwargs):
-        ...     return FakeResponse(FakeMessage(content="Arr,
-        ...     the answer be 579."))
-
-        >>> calls = [fake_create_first, fake_create_second]
-
-        >>> def fake_create(*args, **kwargs):
-        ...     return calls.pop(0)(*args, **kwargs)
-
-        >>> chat.client.chat.completions.create = fake_create
-
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
+        ...
+        >>> chat = Chat()
+        >>> chat.client.chat.completions.create = lambda *a, **k: FakeResponse()
         >>> result = chat.send_message("123+456")
         >>> "579" in result
         True
