@@ -1,10 +1,9 @@
 import json
-import os
 from groq import Groq
-from tools.calculate import calculate, tool_schema
-from tools.ls import ls, tool_schema
-from tools.cat import cat, tool_schema
-from tools.grep import grep, tool_schema
+from tools.calculate import calculate, calculate_schema
+from tools.ls import ls, ls_schema
+from tools.cat import cat, cat_schema
+from tools.grep import grep, grep_schema
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,7 +21,7 @@ class Chat:
     True
 
     >>> chat.send_message("hello")
-    'Ahoy, matey! What be on yer mind fer today? Arr!'
+    "Ahoy, matey! Ye be speakin' to a salty sea dog. What be yer command, or shall we just hoist the Jolly Roger and chat? Arr!"
     
 
     
@@ -33,15 +32,19 @@ class Chat:
     >>> calculate('1/0')
     '{"error": "Invalid expression"}'
 
-    >>> cat('.coverage')
+    >>> from unittest.mock import patch, mock_open
+    >>> with patch("builtins.open", mock_open()) as m:
+    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, "bad byte")
+    ...     cat(".coverage")
     'UnicodeDecodeError'
+
     >>> cat('tool.py')
     'FileNotFoundError'
     >>> cat('..')
     'Error: unsafe path'
 
     >>> ls('')
-    'README.md __pycache__ chat.py pyproject.toml requirements.txt test_projects tools'
+    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info dist htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test test_projects tools venv'
     
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
@@ -135,7 +138,7 @@ class Chat:
             }
         )
 
-        tools = [tool_schema]
+        tools = [calculate_schema, ls_schema, cat_schema, grep_schema]
 
         chat_completion = self.client.chat.completions.create(
             messages=self.messages,
