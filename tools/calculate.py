@@ -19,7 +19,7 @@ def calculate(expression):
         return json.dumps({"error": "Invalid expression"})
 
 
-tool_schema = {
+calculate_schema = {
     "type": "function",
     "function": {
         "name": "calculate",

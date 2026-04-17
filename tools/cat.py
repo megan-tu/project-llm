@@ -23,7 +23,7 @@ def cat(file):
             return 'FileNotFoundError'
 
 
-tool_schema = {
+cat_schema = {
     "type": "function",
     "function": {
         "name": "cat",

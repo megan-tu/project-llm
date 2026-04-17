@@ -26,7 +26,7 @@ def grep(path, regex):
                         result += line
         return result
 
-tool_schema = {
+grep_schema = {
     "type": "function",
     "function": {
         "name": "grep",

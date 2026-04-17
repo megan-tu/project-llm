@@ -30,7 +30,7 @@ def ls(folder=None):
         result = sorted(glob.glob('*'))
         return ' '.join(result)
 
-tool_schema = {
+ls_schema = {
     "type": "function",
     "function": {
         "name": "ls",
