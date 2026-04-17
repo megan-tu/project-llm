@@ -48,7 +48,7 @@ grep_schema = {
                     "type": "string",
                     "description": "The regular expression to search for."
                 },
-                    "path": {
+                "path": {
                     "type": "string",
                     "description": "The path of the file to read."
                 }
