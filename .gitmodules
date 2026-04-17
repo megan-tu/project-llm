@@ -5,5 +5,5 @@
 	path = test_projects/markdown-project
 	url = https://github.com/megan-tu/markdown-project
 [submodule "test/projects/project_webscraping"]
-	path = test/projects/project_webscraping
+	path = test_projects/project_webscraping
 	url = https://github.com/megan-tu/project_webscraping
