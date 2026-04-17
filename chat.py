@@ -209,12 +209,18 @@ def repl(temperature=0.0):
     .github/workflows
     chat> /cat tool.py
     FileNotFoundError
-    chat> /grep */calculate.py err.*r
+    chat> /grep */calculate.py x.*n
+    def calculate(expression):
+        Evaluate a mathematical expression
         '{"error": "Invalid expression"}'
         '{"error": "Invalid expression"}'
-    <BLANKLINE>
-    chat> /unknown
-    Error: unknown command unknown
+            result = eval(expression)  # Use safe evaluation in production
+        except Exception:
+            return json.dumps({"error": "Invalid expression"})
+            "description": "Evaluate a mathematical expression",
+                    "expression": {
+                        "description": "The mathematical expression to evaluate",
+                "required": ["expression"],
     <BLANKLINE>
     '''
     chat = Chat()
