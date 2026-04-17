@@ -200,8 +200,7 @@ def repl(temperature=0.0):
     ...         return user_input
     ...     except IndexError:
     ...         raise KeyboardInterrupt
-    >>> with patch('builtins.input', monkey_input),
-        patch('chat.Chat') as MockChat:
+    >>> with patch('builtins.input', monkey_input), patch('chat.Chat') as MockChat:
     ...     MockChat.return_value.send_message.return_value = 'Hello!'
     ...     repl()
     chat> Hi
