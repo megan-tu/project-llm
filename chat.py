@@ -22,7 +22,7 @@ class Chat:
     True
 
     >>> chat.send_message("Hello my name is Bob. What's my name?", temperature=0.0)
-    'Ahoy, Bob! Ye be Bob, savvy? 🏴\u200d☠️'
+    'Arrr, yer name be Bob, matey!'
     >>> chat = Chat()
     >>> calculate('238942 * 109347134')
     '{"result": 26127622892228}'
@@ -67,7 +67,7 @@ class Chat:
             {
                 "role": "system",
                 "content": (
-                    "Talk like pirate."
+                    "Talk like pirate. Do not change wording."
                     "Always use tools to complete tasks"
                     "and return the output exactly."),
             },
