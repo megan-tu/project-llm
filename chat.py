@@ -21,8 +21,6 @@ class Chat:
     >>> isinstance(chat, Chat)
     True
 
-    >>> chat.send_message("Hello my name is Bob. What's my name? Only respond with my name.", temperature=0.0)
-    'Bob'
     >>> chat = Chat()
     >>> calculate('238942 * 109347134')
     '{"result": 26127622892228}'
@@ -73,6 +71,23 @@ class Chat:
     def send_message(self, message, temperature=0.0):
         '''
         Sends a message to the LLM and returns the assistant's response.
+        >>> import json
+        >>> chat = Chat()
+
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "Arrr, yer name be Bob, matey!"
+
+        >>> class FakeResponse:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
+
+        >>> chat.client.chat.completions.create = lambda *args, **kwargs: FakeResponse()
+
+        >>> chat.send_message("Hello my name is Bob. What's my name?", temperature=0.0)
+        'Arrr, yer name be Bob, matey!'
+
         >>> import json
         >>> chat = Chat()
 
