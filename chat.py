@@ -7,7 +7,7 @@ from tools.cat import cat, tool_schema
 from tools.grep import grep, tool_schema
 
 from dotenv import load_dotenv
-load_dotenv()  # reads variables from a .env file and sets them in os.environ
+load_dotenv()
 
 
 # in python, class names are CamelCase
