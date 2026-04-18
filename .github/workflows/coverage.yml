@@ -36,10 +36,7 @@ jobs:
                  --cov-report=xml \
                  --cov-report=term-missing
 
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
-          fail_ci_if_error: true
-          verbose: true
+      - name: Upload coverage reports to Codecov
+    uses: codecov/codecov-action@v5
+    with:
+      token: ${{ secrets.CODECOV_TOKEN }}
