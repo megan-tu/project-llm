@@ -6,7 +6,7 @@
 
 [![flake8](https://github.com/megan-tu/project-llm/actions/workflows/flake8.yml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/flake8.yml)
 
-[![codecov](https://codecov.io/gh/megan-tu/https://github.com/megan-tu/project-llm/branch/main/graph/badge.svg)](https://codecov.io/gh/megan-tu/https://github.com/megan-tu/project-llm)
+[![codecov](https://codecov.io/github/megan-tu/project-llm/graph/badge.svg?token=XO6FOSHPB6)](https://codecov.io/github/megan-tu/project-llm)
 
 This project is an LLM chatbot that writes simple output with pirate language. It can also call tools, such as calculate, cat, ls, and grep.
 
