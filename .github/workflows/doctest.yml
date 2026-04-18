@@ -21,7 +21,7 @@ jobs:
         run: |
           pip install requests
           pip install -r requirements.txt
-          pip install pytest coverage
+          pip install pytest pytest-cov
       - name: Run doctests
         run: |
           python -m doctest --verbose project-llm/chat.py
@@ -29,3 +29,8 @@ jobs:
         run: |
           coverage run -m pytest --doctest-modules
           coverage report -m
+          pytest --cov --cov-branch --cov-report=xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
