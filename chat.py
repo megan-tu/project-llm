@@ -39,7 +39,7 @@ class Chat:
     >>> cat('..')
     'Error: unsafe path'
     >>> ls('')
-    'README.md __pycache__ chat.py pyproject.toml requirements.txt test_projects tools'
+    'README.md __pycache__ build chat.py cmc_csci040_MeganTu.egg-info pyproject.toml requirements.txt test_projects tools'
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')

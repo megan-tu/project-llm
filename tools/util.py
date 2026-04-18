@@ -19,4 +19,5 @@ def is_path_safe(path):
     if ".." in path:
         return False
 
-    return True
+    else:
+        return True

@@ -17,13 +17,12 @@ def grep(path, regex):
     if not is_path_safe(path):
         return "Error: unsafe path"
     result = ''
-    if path:
-        for path in glob.glob(path):
-            with open(path) as f:
-                for line in f:
-                    if re.search(regex, line):
-                        result += line
-        return result
+    for path in glob.glob(path):
+        with open(path) as f:
+            for line in f:
+                if re.search(regex, line):
+                    result += line
+    return result
 
 
 grep_schema = {
