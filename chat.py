@@ -4,6 +4,7 @@ from tools.calculate import calculate, calculate_schema
 from tools.ls import ls, ls_schema
 from tools.cat import cat, cat_schema
 from tools.grep import grep, grep_schema
+import glob
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -278,9 +279,16 @@ def repl(temperature=0.0):
                     continue
 
                 elif command == 'grep':
-                    output = grep(*args)
-                    print(output)
-                    continue
+                    pattern = args[0]
+                    search_term = args[1]
+                    files = glob.glob(pattern)
+                    if not files:
+                        print('')
+                        continue
+                    for f in files:
+                        output = grep(f, search_term)
+                        if output:
+                            print(output)
 
                 else:
                     print(f'Error: unknown command {command}')
