@@ -43,7 +43,7 @@ class Chat:
     >>> cat('tools/util.py')
     'import os\\n\\n\\ndef is_path_safe(path):\\n    \\'\\'\\'\\n    Returns True if the path is safe (no absolute paths or traversal).\\n    >>> is_path_safe(\\'tools/ls.py\\')\\n    True\\n    >>> is_path_safe(\\'/etc/passwd\\')\\n    False\\n    >>> is_path_safe(\\'../secrets.py\\')\\n    False\\n    >>> is_path_safe(\\'src/../config.json\\')\\n    False\\n    \\'\\'\\'\\n    if os.path.isabs(path):\\n        return False\\n\\n    if ".." in path:\\n        return False\\n\\n    else:\\n        return True\\n'
     >>> ls('')
-      'README.md __pycache__ chat.py demo pyproject.toml requirements.txt
+    'README.md __pycache__ chat.py demo pyproject.toml requirements.txt
     >>> ls('tools')
     'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
     >>> ls('..')
@@ -210,7 +210,7 @@ class Chat:
         self.messages.append({
             'role': 'assistant',
             'content': result,
-        })        
+        })
         return result
 
 
