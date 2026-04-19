@@ -26,7 +26,7 @@ def grep(path, regex):
             continue
 
         try:
-            with open(path) as f:
+            with open(file) as f:
                 for line in f:
                     if re.search(regex, line):
                         result += line
