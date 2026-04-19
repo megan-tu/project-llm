@@ -210,8 +210,7 @@ class Chat:
         self.messages.append({
             'role': 'assistant',
             'content': result,
-        })
-        
+        })        
         return result
 
 

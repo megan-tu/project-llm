@@ -23,6 +23,8 @@ chat> /ls tools/
 tools/__init__.py tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py
 ```
 
+![Project Gif Demo](/Users/megantu/Downloads/2026-04-18 22.42.49.gif)
+
 # Webpage Project Example:
 
 This example lists the pages in my webpage project.
