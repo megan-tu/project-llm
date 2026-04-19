@@ -10,7 +10,7 @@
 
 This project is an LLM chatbot that writes simple output with pirate language. It can also call tools, such as calculate, cat, ls, and grep.
 
-Here's the link to my [PyPI project](https://pypi.org/project/cmc-csci040-MeganTu/).
+Here's the link to my [PyPI project](https://pypi.org/project/cmc-csci40-MeganTu/).
 
 # Installation and Usage:
 
