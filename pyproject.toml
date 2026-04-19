@@ -2,10 +2,13 @@
 requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+py-modules = ["chat"]
+
 [project]
-name = "cmc-csci040-MeganTu"
-version = "1.0.0"
-description = "An LLM in python that chats like a pirate using a GROQ API key."
+name = "cmc-csci40-MeganTu"
+version = "1.0.1"
+description = "An LLM in python that chats like a pirate using a GROQ API key and calls tools (calculate, ls, cat, grep)."
 readme = "README.md"
 authors = [{ name = "Megan Tu", email = "mtu@students.pitzer.edu" }]
 requires-python = ">=3.9"

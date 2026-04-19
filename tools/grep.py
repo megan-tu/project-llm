@@ -1,3 +1,4 @@
+import os
 import glob
 import re
 from tools.util import is_path_safe
@@ -17,11 +18,16 @@ def grep(path, regex):
     if not is_path_safe(path):
         return "Error: unsafe path"
     result = ''
-    for path in glob.glob(path):
-        with open(path) as f:
-            for line in f:
-                if re.search(regex, line):
-                    result += line
+    for p in glob.glob(path):
+        if not os.path.isfile(p):
+            continue
+        try:
+            with open(path) as f:
+                for line in f:
+                    if re.search(regex, line):
+                        result += line
+        except Exception:
+            continue
     return result
 
 

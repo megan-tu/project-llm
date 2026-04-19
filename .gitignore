@@ -10,3 +10,6 @@ build/lib/
 docsum/shanghai_communique.chinese.utf8
 docsum/encoded.txt
 Trump_tweets_graph.png
+cmc_csci40_MeganTu.egg-info/
+__init__.py
+tools/__init__.py

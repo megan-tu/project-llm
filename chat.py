@@ -1,3 +1,8 @@
+import os
+import sys
+
+# Ensure project root is always importable (CLI-safe)
+sys.path.insert(0, os.path.dirname(__file__))
 import json
 from groq import Groq
 from tools.calculate import calculate, calculate_schema
@@ -7,6 +12,7 @@ from tools.grep import grep, grep_schema
 
 from dotenv import load_dotenv
 load_dotenv()
+
 
 # in python, class names are CamelCase
 # non-class names (functions/variables) are in snake_case
@@ -54,18 +60,18 @@ class Chat:
     >>> grep('..None', '[z]')
     'Error: unsafe path'
     '''
-    client = Groq()
 
     def __init__(self):
         '''
         Initializes the chat with default system prompt
         and tool definitions.
         '''
+        self.client = Groq()
         self.MODEL = 'openai/gpt-oss-120b'
         self.messages = [
             {
                 "role": "system",
-                "content": "Talk like pirate. Do not change wording. Always use tools to complete tasks and return the output exactly.",
+                "content": "Talk like pirate. Do not change wording. Use tools to complete tasks when appropriate and return the output exactly. Otherwise respond directly and clearly.",
             },
         ]
 
@@ -169,18 +175,22 @@ class Chat:
         )
         response_message = chat_completion.choices[0].message
         tool_calls = response_message.tool_calls
-        if tool_calls:
+
+        while tool_calls:
+            self.messages.append(response_message)
+
             available_functions = {
                 "calculate": calculate,
                 "ls": ls,
                 "cat": cat,
                 "grep": grep,
             }
-            self.messages.append(response_message)
+
             for tool_call in tool_calls:
                 function_name = tool_call.function.name
                 function_args = json.loads(tool_call.function.arguments)
                 function_to_call = available_functions[function_name]
+
                 function_response = function_to_call(**function_args)
 
                 self.messages.append({
@@ -189,25 +199,23 @@ class Chat:
                     "name": function_name,
                     "content": function_response,
                 })
-            # Step 4: Get final response from model
-            second_response = self.client.chat.completions.create(
+            chat_completion = self.client.chat.completions.create(
                 model=self.MODEL,
                 messages=self.messages,
                 tools=tools,
                 tool_choice="auto",
             )
-            result = second_response.choices[0].message.content
-            self.messages.append({
-                'role': 'assistant',
-                'content': result,
-            })
 
-        else:
-            result = chat_completion.choices[0].message.content
-            self.messages.append({
-                'role': 'assistant',
-                'content': result,
-            })
+            response_message = chat_completion.choices[0].message
+            tool_calls = response_message.tool_calls
+
+        result = (response_message.content or '').strip()
+
+        self.messages.append({
+            'role': 'assistant',
+            'content': result,
+        })
+        
         return result
 
 
@@ -284,10 +292,13 @@ def repl(temperature=0.0):
                     continue
 
             response = chat.send_message(user_input, temperature=temperature)
-            print(response)
+            if response.strip():
+                print(response)
+            else:
+                print("Arrr... no answer from the sea today, matey.")
     except (KeyboardInterrupt, EOFError):
         print()
 
 
 if __name__ == '__main__':
-    repl(temperature=0.0)
+    repl()
