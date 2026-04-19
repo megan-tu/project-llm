@@ -20,17 +20,18 @@ def grep(path, regex):
     result = ''
 
     files = glob.glob(path)
-    
-    if not files:
-        files = [path]
 
     for file in files:
         if not os.path.isfile(file):
             continue
-        with open(path) as f:
-            for line in f:
-                if re.search(regex, line):
-                    result += line
+
+        try:
+            with open(path) as f:
+                for line in f:
+                    if re.search(regex, line):
+                        result += line
+        except (FileNotFoundError, UnicodeDecodeError):
+            continue
     return result
 
 
