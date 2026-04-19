@@ -2,7 +2,7 @@
 
 [![doctests](https://github.com/megan-tu/project-llm/actions/workflows/doctest.yml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/doctest.yml)
 
-[![integration-tests](https://github.com/megan-tu/lab-llm/actions/workflows/integration.yml/badge.svg)](https://github.com/megan-tu/lab-llm/actions/workflows/integration.yml)
+[![integration-tests](https://github.com/megan-tu/project-llm/actions/workflows/integration.yml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/integration.yml)
 
 [![flake8](https://github.com/megan-tu/project-llm/actions/workflows/flake8.yml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/flake8.yml)
 

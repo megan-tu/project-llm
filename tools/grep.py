@@ -18,16 +18,19 @@ def grep(path, regex):
     if not is_path_safe(path):
         return "Error: unsafe path"
     result = ''
-    for p in glob.glob(path):
+
+    files = glob.glob(path)
+    
+    if not files:
+        files = [path]
+
+    for file in files:
         if not os.path.isfile(p):
             continue
-        try:
-            with open(path) as f:
-                for line in f:
-                    if re.search(regex, line):
-                        result += line
-        except Exception:
-            continue
+        with open(path) as f:
+            for line in f:
+                if re.search(regex, line):
+                    result += line
     return result
 
 
