@@ -251,6 +251,7 @@ def repl(temperature=0.0):
                         "description": "The mathematical expression to evaluate",
                 "required": ["expression"],
     <BLANKLINE>
+    Hello!
     chat> /unknown
     Error: unknown command unknown
     <BLANKLINE>
