@@ -25,7 +25,7 @@ def grep(path, regex):
         files = [path]
 
     for file in files:
-        if not os.path.isfile(p):
+        if not os.path.isfile(file):
             continue
         with open(path) as f:
             for line in f:
