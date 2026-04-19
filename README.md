@@ -8,6 +8,8 @@
 
 [![codecov](https://codecov.io/github/megan-tu/project-llm/graph/badge.svg?token=XO6FOSHPB6)](https://codecov.io/github/megan-tu/project-llm)
 
+[![Publish Python distribution to PyPI](https://github.com/megan-tu/project-llm/actions/workflows/publish-to-pypi.yaml/badge.svg)](https://github.com/megan-tu/project-llm/actions/workflows/publish-to-pypi.yaml)
+
 This project is an LLM chatbot that writes simple output with pirate language. It can also call tools, such as calculate, cat, ls, and grep.
 
 Here's the link to my [PyPI project](https://pypi.org/project/cmc-csci40-MeganTu/).
