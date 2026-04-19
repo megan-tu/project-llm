@@ -1,8 +1,3 @@
-import os
-import sys
-
-# Ensure project root is always importable (CLI-safe)
-sys.path.insert(0, os.path.dirname(__file__))
 import json
 from groq import Groq
 from tools.calculate import calculate, calculate_schema
