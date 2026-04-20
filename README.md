@@ -37,6 +37,7 @@ test_projects/megan-tu.github.io/Carmel.html test_projects/megan-tu.github.io/Ph
 
 This example explains how my markdown project does not use regex to write markdown format, but is based on string operations.
 
+<!-- you should add cd commands so that it is clear what directory the chat command is being run in; these results don't make sense for running chat in your root project folder -->
 ```
 $ chat
 chat> does my markdown project use regex to write markdown?
@@ -46,7 +47,7 @@ Arr, after scourin’ the code ye be sailin’ through, I find naught but plain�
 This example explains what my webscraping project does and what it outputs.
 
 ```
-% chat
+$ chat
 chat> How does my webscraping project work?
 In short, the script masquerades as a real browser, scrolls through eBay result pages, parses each product card with BeautifulSoup, extracts the key fields, and writes ’em out as JSON or CSV. That’s how yer web‑scrapin’ project grabs the loot!  🏴‍☠️
 ```
