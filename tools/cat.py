@@ -2,7 +2,7 @@ from tools.util import is_path_safe
 
 
 def cat(file):
-    '''
+    r'''
     Opens a file and outputs its contents as a string.
     >>> from unittest.mock import patch, mock_open
     >>> with patch("builtins.open", mock_open()) as m:
@@ -13,7 +13,12 @@ def cat(file):
     'FileNotFoundError'
     >>> cat('..')
     'Error: unsafe path'
-    >>> cat('tools/util.py')
+
+    # this is quite ugly and hard to read;
+    # fix it by:
+    # 1. using the print function
+    # 2. converting the docstring into a raw string with r""" at the top
+    >>> print(cat('tools/util.py'))
     'import os\\n\\n\\ndef is_path_safe(path):\\n    \\'\\'\\'\\n    Returns True if the path is safe (no absolute paths or traversal).\\n    >>> is_path_safe(\\'tools/ls.py\\')\\n    True\\n    >>> is_path_safe(\\'/etc/passwd\\')\\n    False\\n    >>> is_path_safe(\\'../secrets.py\\')\\n    False\\n    >>> is_path_safe(\\'src/../config.json\\')\\n    False\\n    \\'\\'\\'\\n    if os.path.isabs(path):\\n        return False\\n\\n    if ".." in path:\\n        return False\\n\\n    else:\\n        return True\\n'
     '''
 
