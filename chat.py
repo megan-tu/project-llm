@@ -9,10 +9,10 @@ import glob
 from dotenv import load_dotenv
 load_dotenv()
 
-
-# in python, class names are CamelCase
-# non-class names (functions/variables) are in snake_case
-
+# I understand that you included this comment because I had written it
+# in class, but you should not have excess comments like this in
+# "production code"; only include comments that help the reader
+# understand what your code does
 
 class Chat:
     '''
@@ -20,41 +20,10 @@ class Chat:
     It also support tool calling, including ls, cat, grep, and calculate.
 
     >>> chat = Chat()
-    >>> isinstance(chat, Chat)
-    True
 
-    >>> chat = Chat()
-    >>> calculate('238942 * 109347134')
-    '{"result": 26127622892228}'
-    >>> calculate('1/0')
-    '{"error": "Invalid expression"}'
-
-    >>> from unittest.mock import patch, mock_open
-    >>> with patch("builtins.open", mock_open()) as m:
-    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1,
-    ...     "bad byte")
-    ...     cat(".coverage")
-    'UnicodeDecodeError'
-
-    >>> cat('tool.py')
-    'FileNotFoundError'
-    >>> cat('..')
-    'Error: unsafe path'
-    >>> cat('tools/util.py')
-    'import os\\n\\n\\ndef is_path_safe(path):\\n    \\'\\'\\'\\n    Returns True if the path is safe (no absolute paths or traversal).\\n    >>> is_path_safe(\\'tools/ls.py\\')\\n    True\\n    >>> is_path_safe(\\'/etc/passwd\\')\\n    False\\n    >>> is_path_safe(\\'../secrets.py\\')\\n    False\\n    >>> is_path_safe(\\'src/../config.json\\')\\n    False\\n    \\'\\'\\'\\n    if os.path.isabs(path):\\n        return False\\n\\n    if ".." in path:\\n        return False\\n\\n    else:\\n        return True\\n'
-    >>> ls('')
-    'README.md __pycache__ chat.py demo pyproject.toml requirements.txt test_projects tools'
-    >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
-    >>> ls('..')
-    'Error: unsafe path'
-    >>> ls('/Users/megantu/CSCI040/docsum')
-    'Error: unsafe path'
-
-    >>> grep('*/ls.py', '[z]')
-    ''
-    >>> grep('..None', '[z]')
-    'Error: unsafe path'
+    # none of the test cases I deleted test anything about this class;
+    # they were all tests for your tools, and should be included in
+    # the appropriate tools folder
     '''
 
     def __init__(self):
@@ -74,6 +43,13 @@ class Chat:
     def send_message(self, message, temperature=0.0):
         '''
         Sends a message to the LLM and returns the assistant's response.
+
+        # these test cases are more complicated than the actual code,
+        # so they don't provide the reader much insight into the code.
+        # they also do not actually test much about the LLM usage;
+        # it is possible to write much better tests than this,
+        # but I'm not deducting any points though
+
         >>> import json
         >>> chat = Chat()
 
@@ -153,7 +129,6 @@ class Chat:
         '''
         self.messages.append(
             {
-                # system: never changes; user: changes a lot;
                 'role': 'user',
                 'content': message
             }
@@ -172,6 +147,12 @@ class Chat:
         response_message = chat_completion.choices[0].message
         tool_calls = response_message.tool_calls
 
+        # this is mildly dangerout in that it can run into an infinite loop
+        # if you are on a paid API, this could drain your entire bank account
+        # if you give it a bad prompt that makes the AI want to use tools
+        # forever; it is customary to do something like:
+        #   for i in range(10)
+        # so that the loop is guaranteed to end at some point
         while tool_calls:
             self.messages.append(response_message)
 
@@ -237,7 +218,7 @@ def repl(temperature=0.0):
     .github/workflows
     chat> /cat tool.py
     FileNotFoundError
-    chat> /grep */calculate.py x.*n
+    chat> /grep */calculate.py x.*n # this is a very weird test case; it does not help me as a reader figure out what your code is "supposed" to do
     def calculate(expression):
         Evaluate a mathematical expression
         '{"error": "Invalid expression"}'
