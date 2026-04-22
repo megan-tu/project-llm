@@ -1,8 +1,7 @@
 from tools.util import is_path_safe
 
-
 def cat(file):
-    '''
+    """
     Opens a file and outputs its contents as a string.
     >>> from unittest.mock import patch, mock_open
     >>> with patch("builtins.open", mock_open()) as m:
@@ -13,9 +12,31 @@ def cat(file):
     'FileNotFoundError'
     >>> cat('..')
     'Error: unsafe path'
-    >>> cat('tools/util.py')
-    'import os\\n\\n\\ndef is_path_safe(path):\\n    \\'\\'\\'\\n    Returns True if the path is safe (no absolute paths or traversal).\\n    >>> is_path_safe(\\'tools/ls.py\\')\\n    True\\n    >>> is_path_safe(\\'/etc/passwd\\')\\n    False\\n    >>> is_path_safe(\\'../secrets.py\\')\\n    False\\n    >>> is_path_safe(\\'src/../config.json\\')\\n    False\\n    \\'\\'\\'\\n    if os.path.isabs(path):\\n        return False\\n\\n    if ".." in path:\\n        return False\\n\\n    else:\\n        return True\\n'
-    '''
+    >>> print(cat('tools/util.py'))
+    import os
+
+
+    def is_path_safe(path):
+        '''
+        Returns True if the path is safe (no absolute paths or traversal).
+        >>> is_path_safe('tools/ls.py')
+        True
+        >>> is_path_safe('/etc/passwd')
+        False
+        >>> is_path_safe('../secrets.py')
+        False
+        >>> is_path_safe('src/../config.json')
+        False
+        '''
+        if os.path.isabs(path):
+            return False
+
+        if ".." in path:
+            return False
+
+        else:
+            return True
+    """
 
     if not is_path_safe(file):
         return "Error: unsafe path"

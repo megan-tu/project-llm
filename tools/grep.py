@@ -12,8 +12,8 @@ def grep(path, regex):
     >>> grep('..None', '[z]')
     'Error: unsafe path'
 
-    >>> grep('*/calculate.py', 'x.*n')
-    'def calculate(expression):\\n    Evaluate a mathematical expression\\n    \\'{"error": "Invalid expression"}\\'\\n    \\'{"error": "Invalid expression"}\\'\\n        result = eval(expression)  # Use safe evaluation in production\\n    except Exception:\\n        return json.dumps({"error": "Invalid expression"})\\n        "description": "Evaluate a mathematical expression",\\n                "expression": {\\n                    "description": "The mathematical expression to evaluate",\\n            "required": ["expression"],\\n'
+    >>> print(grep('*/chat.py', 'hello'))
+    ' >>> result = chat.send_message("hello")'
     '''
     if not is_path_safe(path):
         return "Error: unsafe path"

@@ -1,4 +1,5 @@
 import json
+import os
 from groq import Groq
 from tools.calculate import calculate, calculate_schema
 from tools.ls import ls, ls_schema
@@ -10,51 +11,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# in python, class names are CamelCase
-# non-class names (functions/variables) are in snake_case
-
-
 class Chat:
     '''
     The Chat class sends messages to an LLM and talks like a pirate.
     It also support tool calling, including ls, cat, grep, and calculate.
 
     >>> chat = Chat()
-    >>> isinstance(chat, Chat)
-    True
-
-    >>> chat = Chat()
-    >>> calculate('238942 * 109347134')
-    '{"result": 26127622892228}'
-    >>> calculate('1/0')
-    '{"error": "Invalid expression"}'
-
-    >>> from unittest.mock import patch, mock_open
-    >>> with patch("builtins.open", mock_open()) as m:
-    ...     m.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1,
-    ...     "bad byte")
-    ...     cat(".coverage")
-    'UnicodeDecodeError'
-
-    >>> cat('tool.py')
-    'FileNotFoundError'
-    >>> cat('..')
-    'Error: unsafe path'
-    >>> cat('tools/util.py')
-    'import os\\n\\n\\ndef is_path_safe(path):\\n    \\'\\'\\'\\n    Returns True if the path is safe (no absolute paths or traversal).\\n    >>> is_path_safe(\\'tools/ls.py\\')\\n    True\\n    >>> is_path_safe(\\'/etc/passwd\\')\\n    False\\n    >>> is_path_safe(\\'../secrets.py\\')\\n    False\\n    >>> is_path_safe(\\'src/../config.json\\')\\n    False\\n    \\'\\'\\'\\n    if os.path.isabs(path):\\n        return False\\n\\n    if ".." in path:\\n        return False\\n\\n    else:\\n        return True\\n'
-    >>> ls('')
-    'README.md __pycache__ chat.py demo pyproject.toml requirements.txt test_projects tools'
-    >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
-    >>> ls('..')
-    'Error: unsafe path'
-    >>> ls('/Users/megantu/CSCI040/docsum')
-    'Error: unsafe path'
-
-    >>> grep('*/ls.py', '[z]')
-    ''
-    >>> grep('..None', '[z]')
-    'Error: unsafe path'
+    >>> chat.send_message('my name is Bob', temperature=0.0)
+    'Arrr, well met, Bob! Ye be sailin' these digital seas with a fine name indeed!'
+    >>> chat.send_message('what is my name?', temperature=0.0)
+    'Arrr, ye told me yer name be **Bob**, matey!'
     '''
 
     def __init__(self):
@@ -153,7 +119,6 @@ class Chat:
         '''
         self.messages.append(
             {
-                # system: never changes; user: changes a lot;
                 'role': 'user',
                 'content': message
             }
@@ -172,29 +137,30 @@ class Chat:
         response_message = chat_completion.choices[0].message
         tool_calls = response_message.tool_calls
 
-        while tool_calls:
-            self.messages.append(response_message)
+        for i in range(10):
+            while tool_calls:
+                self.messages.append(response_message)
 
-            available_functions = {
-                "calculate": calculate,
-                "ls": ls,
-                "cat": cat,
-                "grep": grep,
-            }
+                available_functions = {
+                    "calculate": calculate,
+                    "ls": ls,
+                    "cat": cat,
+                    "grep": grep,
+                }
 
-            for tool_call in tool_calls:
-                function_name = tool_call.function.name
-                function_args = json.loads(tool_call.function.arguments)
-                function_to_call = available_functions[function_name]
+                for tool_call in tool_calls:
+                    function_name = tool_call.function.name
+                    function_args = json.loads(tool_call.function.arguments)
+                    function_to_call = available_functions[function_name]
 
-                function_response = function_to_call(**function_args)
+                    function_response = function_to_call(**function_args)
 
-                self.messages.append({
-                    "tool_call_id": tool_call.id,
-                    "role": "tool",
-                    "name": function_name,
-                    "content": function_response,
-                })
+                    self.messages.append({
+                        "tool_call_id": tool_call.id,
+                        "role": "tool",
+                        "name": function_name,
+                        "content": function_response,
+                    })
             chat_completion = self.client.chat.completions.create(
                 model=self.MODEL,
                 messages=self.messages,
@@ -237,18 +203,10 @@ def repl(temperature=0.0):
     .github/workflows
     chat> /cat tool.py
     FileNotFoundError
-    chat> /grep */calculate.py x.*n
-    def calculate(expression):
-        Evaluate a mathematical expression
-        '{"error": "Invalid expression"}'
-        '{"error": "Invalid expression"}'
-            result = eval(expression)  # Use safe evaluation in production
-        except Exception:
-            return json.dumps({"error": "Invalid expression"})
-            "description": "Evaluate a mathematical expression",
-                    "expression": {
-                        "description": "The mathematical expression to evaluate",
-                "required": ["expression"],
+    chat> /grep */cat.py True
+    Returns True if the path is safe (no absolute paths or traversal).
+        True
+            return True
     <BLANKLINE>
     Hello!
     chat> /unknown
@@ -256,9 +214,22 @@ def repl(temperature=0.0):
     <BLANKLINE>
     '''
     chat = Chat()
+
+    if not os.path.isdir('.git'):
+        print("Error: .git folder not found")
+        return
+    
+    if os.path.isfile("AGENTS.md"):
+        content = cat("AGENTS.md")
+        chat.messages.append({
+            "role": "system",
+            "content": content
+        })
+
     try:
         while True:
             user_input = input('chat> ')
+
             if user_input.startswith('/'):
                 parts = user_input[1:].split()
                 command = parts[0]
@@ -289,6 +260,7 @@ def repl(temperature=0.0):
                         output = grep(f, search_term)
                         if output:
                             print(output)
+                    continue
 
                 else:
                     print(f'Error: unknown command {command}')
