@@ -5,8 +5,12 @@ from tools.calculate import calculate, calculate_schema
 from tools.ls import ls, ls_schema
 from tools.cat import cat, cat_schema
 from tools.grep import grep, grep_schema
+from tools.doctest import doctest, doctest_schema
+from tools.write_files import write_files, write_files_schema
+from tools.write_file import write_file, write_file_schema
+from tools.rm import rm, rm_schema
 import glob
-
+from git import Repo
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -16,11 +20,13 @@ class Chat:
     The Chat class sends messages to an LLM and talks like a pirate.
     It also support tool calling, including ls, cat, grep, and calculate.
 
+    Because LLMs are non-deterministic, the doctests below demonstrate
+    that the LLM includes 'Bob' in its response, but don't show the entire output. 
     >>> chat = Chat()
-    >>> chat.send_message('my name is Bob', temperature=0.0)
-    'Arrr, well met, Bob! Ye be sailin' these digital seas with a fine name indeed!'
-    >>> chat.send_message('what is my name?', temperature=0.0)
-    'Arrr, ye told me yer name be **Bob**, matey!'
+    >>> response = chat.send_message('my name is bob', temperature=0.0)
+    >>> response = chat.send_message('what is my name?', temperature=0.0)
+    >>> 'Bob' in response
+    True
     '''
 
     def __init__(self):
@@ -43,78 +49,14 @@ class Chat:
         >>> import json
         >>> chat = Chat()
 
-        >>> class FakeMessage:
-        ...     def __init__(self):
-        ...         self.tool_calls = None
-        ...         self.content = "Arrr, yer name be Bob, matey!"
-
-        >>> class FakeResponse:
-        ...     def __init__(self):
-        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
-
-        >>> chat.client.chat.completions.create = lambda *args, **kwargs: FakeResponse()
-
-        >>> chat.send_message("Hello my name is Bob. What's my name?", temperature=0.0)
-        'Arrr, yer name be Bob, matey!'
-
-        >>> import json
-        >>> chat = Chat()
-
-        >>> class FakeToolCall:
-        ...     def __init__(self):
-        ...         self.function = type("Func", (), {
-        ...             "name": "calculate",
-        ...             "arguments": json.dumps({"expression": "123+456"})
-        ...         })()
-        ...         self.id = "1"
-
-        >>> class FakeMessage:
-        ...     def __init__(self):
-        ...         self.tool_calls = [FakeToolCall()]
-        ...         self.content = None
-
-        >>> class FakeResponse1:
-        ...     def __init__(self):
-        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
-
-        >>> class FakeMessage2:
-        ...     def __init__(self):
-        ...         self.tool_calls = None
-        ...         self.content = "579"
-
-        >>> class FakeResponse2:
-        ...     def __init__(self):
-        ...         self.choices = [type("Choice", (), {"message": FakeMessage2()})()]
-
-        >>> calls = [FakeResponse1, FakeResponse2]
-
-        >>> def fake_create(*args, **kwargs):
-        ...     return calls.pop(0)()
-
-        >>> chat.client.chat.completions.create = fake_create
-
-        >>> chat.send_message("123+456")
-        '579'
-
-        >>> chat = Chat()
-
-        >>> class FakeMessage:
-        ...     def __init__(self):
-        ...         self.tool_calls = None
-        ...         self.content = "Arr, no tools needed!"
-
-        >>> class FakeResponse:
-        ...     def __init__(self):
-        ...         self.choices = [type("Choice", (),
-        ...         {"message": FakeMessage()})()]
-
-        >>> def fake_create(*args, **kwargs):
-        ...     return FakeResponse()
-        >>>
-        >>> chat.client.chat.completions.create = fake_create
-
-        >>> result = chat.send_message("hello")
-        >>> "no tools" in result.lower()
+        >>> response = chat.send_message('hello, I'm Bob', temperature=0.0)
+        >>> 'Bob' in response
+        True
+        >>> response = chat.send_message("123+456")
+        >>> '579' in response
+        True
+        >>> response = chat.send_message("does this question use tools?") 
+        >>> 'no tools' in result.lower()
         True
         '''
         self.messages.append(
@@ -124,7 +66,7 @@ class Chat:
             }
         )
 
-        tools = [calculate_schema, ls_schema, cat_schema, grep_schema]
+        tools = [calculate_schema, ls_schema, cat_schema, grep_schema, doctest_schema, write_files_schema, write_file_schema, rm_schema]
 
         chat_completion = self.client.chat.completions.create(
             messages=self.messages,
@@ -146,6 +88,10 @@ class Chat:
                     "ls": ls,
                     "cat": cat,
                     "grep": grep,
+                    "doctest": doctest,
+                    "write_files": write_files,
+                    "write_file": write_file,
+                    "rm": rm,
                 }
 
                 for tool_call in tool_calls:
@@ -180,25 +126,40 @@ class Chat:
         return result
 
 
-def repl(temperature=0.0):
+def repl(temperature=0.0, max_iterations=5):
     '''
     Runs an interactive REPL supporting slash commands and LLM chat.
     Slash commands (/ls, /cat, /grep) can be executed directly
     without calling the LLM.
 
-    >>> from unittest.mock import patch
-    >>> def monkey_input(prompt, user_inputs=['Hi','/ls .github', '/cat tool.py', '/grep */calculate.py x.*n', '/unknown']):
+    >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
     ...     try:
     ...         user_input = user_inputs.pop(0)
     ...         print(f'{prompt}{user_input}')
     ...         return user_input
     ...     except IndexError:
     ...         raise KeyboardInterrupt
-    >>> with patch('builtins.input', monkey_input), patch('chat.Chat') as MockChat:
-    ...     MockChat.return_value.send_message.return_value = 'Hello!'
-    ...     repl()
-    chat> Hi
-    Hello!
+    >>> import builtins
+    >>> builtins.input = monkey_input
+    >>> repl(temperature=0.0)
+    chat> Hello, I am monkey.
+    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
+    chat> Goodbye.
+    Farewell, me scurvy monkey friend, may the winds o' fortune blow in yer favor!
+    <BLANKLINE>
+
+    >>> def monkey_input(prompt, user_inputs=['/ls .github', '/cat tool.py', '/grep */cat.py True', '/unknown']):
+    ...     try:
+    ...         user_input = user_inputs.pop(0)
+    ...         print(f'{prompt}{user_input}')
+    ...         return user_input
+    ...     except IndexError:
+    ...         raise KeyboardInterrupt
+    >>> import builtins
+    >>> builtins.input = monkey_input
+    >>> repl(temperature=0.0)
+    ...
+    >>> builtins.input = original_input
     chat> /ls .github
     .github/workflows
     chat> /cat tool.py
@@ -227,7 +188,11 @@ def repl(temperature=0.0):
         })
 
     try:
+        count = 0
         while True:
+            if count >= max_iterations:
+                break
+            count += 1
             user_input = input('chat> ')
 
             if user_input.startswith('/'):

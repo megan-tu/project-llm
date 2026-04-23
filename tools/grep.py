@@ -11,9 +11,10 @@ def grep(path, regex):
     ''
     >>> grep('..None', '[z]')
     'Error: unsafe path'
-
-    >>> print(grep('*/chat.py', 'hello'))
-    ' >>> result = chat.send_message("hello")'
+    >>> print(grep('test_examples/*.py', 'x'))
+    x=123x=2
+    >>> grep('test_examples/*.py', '^x')
+    'x=123x=2'
     '''
     if not is_path_safe(path):
         return "Error: unsafe path"
