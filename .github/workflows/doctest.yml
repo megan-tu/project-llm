@@ -22,6 +22,7 @@ jobs:
           pip install requests
           pip install -r requirements.txt
           pip install pytest pytest-cov
+          pip install git
       - name: Run doctests
         run: |
           python -m doctest --verbose project-llm/chat.py
