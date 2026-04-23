@@ -56,7 +56,7 @@ class Chat:
         >>> '579' in response
         True
         >>> response = chat.send_message("does this question use tools?") 
-        >>> 'no tools' in result.lower()
+        >>> 'no tools' in response.lower()
         True
         '''
         self.messages.append(
@@ -78,6 +78,13 @@ class Chat:
         )
         response_message = chat_completion.choices[0].message
         tool_calls = response_message.tool_calls
+        if not tool_calls:
+            result = (response_message.content or '').strip()
+            self.messages.append({
+                'role': 'assistant',
+                'content': result,
+            })
+            return result
 
         for i in range(10):
             while tool_calls:
@@ -126,7 +133,7 @@ class Chat:
         return result
 
 
-def repl(temperature=0.0, max_iterations=5):
+def repl(temperature=0.0, max_iterations=2):
     '''
     Runs an interactive REPL supporting slash commands and LLM chat.
     Slash commands (/ls, /cat, /grep) can be executed directly
@@ -148,7 +155,7 @@ def repl(temperature=0.0, max_iterations=5):
     Farewell, me scurvy monkey friend, may the winds o' fortune blow in yer favor!
     <BLANKLINE>
 
-    >>> def monkey_input(prompt, user_inputs=['/ls .github', '/cat tool.py', '/grep */cat.py True', '/unknown']):
+    >>> def monkey_input(prompt, user_inputs=['/ls .github', '/cat tool.py']):
     ...     try:
     ...         user_input = user_inputs.pop(0)
     ...         print(f'{prompt}{user_input}')
@@ -164,6 +171,19 @@ def repl(temperature=0.0, max_iterations=5):
     .github/workflows
     chat> /cat tool.py
     FileNotFoundError
+
+    >>> def monkey_input(prompt, user_inputs=['/grep */cat.py True', '/unknown']):
+    ...     try:
+    ...         user_input = user_inputs.pop(0)
+    ...         print(f'{prompt}{user_input}')
+    ...         return user_input
+    ...     except IndexError:
+    ...         raise KeyboardInterrupt
+    >>> import builtins
+    >>> builtins.input = monkey_input
+    >>> repl(temperature=0.0)
+    ...
+    >>> builtins.input = original_input
     chat> /grep */cat.py True
     Returns True if the path is safe (no absolute paths or traversal).
         True
