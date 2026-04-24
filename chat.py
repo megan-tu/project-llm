@@ -221,8 +221,8 @@ def repl(temperature=0.0, max_iterations=2):
     >>> repl(temperature=0.0)
     chat> /grep test_examples/*.py x
     x = 0
-    x = 123
     x = 2
+    x = 123
     <BLANKLINE>
     chat> /unknown
     Error: unknown command unknown

@@ -13,8 +13,8 @@ def grep(path, regex):
     'Error: unsafe path'
     >>> print(grep('test_examples/*.py', 'x'))
     x = 0
-    x = 123
     x = 2
+    x = 123
     <BLANKLINE>
     '''
     if not is_path_safe(path):
