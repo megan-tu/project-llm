@@ -55,3 +55,32 @@ $ chat
 chat> How does my webscraping project work?
 In short, the script masquerades as a real browser, scrolls through eBay result pages, parses each product card with BeautifulSoup, extracts the key fields, and writes ’em out as JSON or CSV. That’s how yer web‑scrapin’ project grabs the loot!  🏴‍☠️
 ```
+
+This example demonstrates how the chatbot can create or delete files when asked, and the changes are automatically added and committed to the git repo.
+
+```
+$ ls
+__pycache__           file2.txt
+example1.py             test1.txt
+example2.py             Trump_tweets_graph.png
+file1.py
+$ git log --oneline
+6390af6 (HEAD -> features, origin/features) ls
+$ chat
+chat> write_file('test_examples/example_3.py', 'x = "hello world"', 'example_3')
+Arrr, file be written, matey!
+chat> ^D
+$ ls test_examples
+__pycache__           file1.py
+example_3.py            file2.txt
+example1.py             test1.txt
+example2.py             Trump_tweets_graph.png
+$ git log --oneline
+671af4e (HEAD -> features) [docchat] example_3
+$ chat
+chat> can you remove 'test_examples/example_3.py'
+File 'test_examples/example_3.py' has been removed.
+chat> ^D
+$ ls test_examples
+__pycache__           example1.py             example2.py             file1.py                file2.txt               test1.txt               Trump_tweets_graph.png
+```

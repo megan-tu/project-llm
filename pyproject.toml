@@ -11,7 +11,7 @@ include = ["tools*"]
 
 [project]
 name = "cmc-csci40-MeganTu"
-version = "1.0.7"
+version = "1.0.8"
 description = "An LLM in python that chats like a pirate using a GROQ API key and calls tools (calculate, ls, cat, grep)."
 readme = "README.md"
 authors = [{ name = "Megan Tu", email = "mtu@students.pitzer.edu" }]
