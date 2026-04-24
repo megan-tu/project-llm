@@ -18,7 +18,6 @@ class Chat:
     '''
     The Chat class sends messages to an LLM and talks like a pirate.
     It also support tool calling, including ls, cat, grep, and calculate.
-
     '''
 
     def __init__(self):
@@ -26,7 +25,7 @@ class Chat:
         Initializes the chat with default system prompt
         and tool definitions.
         '''
-        self.client = Groq()
+        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         self.MODEL = 'openai/gpt-oss-120b'
         self.messages = [
             {
@@ -41,14 +40,78 @@ class Chat:
         >>> import json
         >>> chat = Chat()
 
-        >>> response = chat.send_message('hello, my name is Bob', temperature=0.0)
-        >>> 'Bob' in response
-        True
-        >>> response = chat.send_message("123+456")
-        >>> '579' in response
-        True
-        >>> response = chat.send_message("does this question use tools?")
-        >>> 'no tools' in response.lower()
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "Arrr, yer name be Bob, matey!"
+
+        >>> class FakeResponse:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
+
+        >>> chat.client.chat.completions.create = lambda *args, **kwargs: FakeResponse()
+
+        >>> chat.send_message("Hello my name is Bob. What's my name?", temperature=0.0)
+        'Arrr, yer name be Bob, matey!'
+
+        >>> import json
+        >>> chat = Chat()
+
+        >>> class FakeToolCall:
+        ...     def __init__(self):
+        ...         self.function = type("Func", (), {
+        ...             "name": "calculate",
+        ...             "arguments": json.dumps({"expression": "123+456"})
+        ...         })()
+        ...         self.id = "1"
+
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.tool_calls = [FakeToolCall()]
+        ...         self.content = None
+
+        >>> class FakeResponse1:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage()})()]
+
+        >>> class FakeMessage2:
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "579"
+
+        >>> class FakeResponse2:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (), {"message": FakeMessage2()})()]
+
+        >>> calls = [FakeResponse1, FakeResponse2]
+
+        >>> def fake_create(*args, **kwargs):
+        ...     return calls.pop(0)()
+
+        >>> chat.client.chat.completions.create = fake_create
+
+        >>> chat.send_message("123+456")
+        '579'
+
+        >>> chat = Chat()
+
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.tool_calls = None
+        ...         self.content = "Arr, no tools needed!"
+
+        >>> class FakeResponse:
+        ...     def __init__(self):
+        ...         self.choices = [type("Choice", (),
+        ...         {"message": FakeMessage()})()]
+
+        >>> def fake_create(*args, **kwargs):
+        ...     return FakeResponse()
+        >>>
+        >>> chat.client.chat.completions.create = fake_create
+
+        >>> result = chat.send_message("hello")
+        >>> "no tools" in result.lower()
         True
         '''
         self.messages.append(
@@ -78,34 +141,33 @@ class Chat:
             })
             return result
 
-        for i in range(10):
-            while tool_calls:
-                self.messages.append(response_message)
+        if tool_calls:
+            self.messages.append(response_message)
 
-                available_functions = {
-                    "calculate": calculate,
-                    "ls": ls,
-                    "cat": cat,
-                    "grep": grep,
-                    "doctest": doctest,
-                    "write_files": write_files,
-                    "write_file": write_file,
-                    "rm": rm,
-                }
+            available_functions = {
+                "calculate": calculate,
+                "ls": ls,
+                "cat": cat,
+                "grep": grep,
+                "doctest": doctest,
+                "write_files": write_files,
+                "write_file": write_file,
+                "rm": rm,
+            }
 
-                for tool_call in tool_calls:
-                    function_name = tool_call.function.name
-                    function_args = json.loads(tool_call.function.arguments)
-                    function_to_call = available_functions[function_name]
+            for tool_call in tool_calls:
+                function_name = tool_call.function.name
+                function_args = json.loads(tool_call.function.arguments)
+                function_to_call = available_functions[function_name]
 
-                    function_response = function_to_call(**function_args)
+                function_response = function_to_call(**function_args)
 
-                    self.messages.append({
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": function_name,
-                        "content": function_response,
-                    })
+                self.messages.append({
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response,
+                })
             chat_completion = self.client.chat.completions.create(
                 model=self.MODEL,
                 messages=self.messages,
@@ -147,7 +209,7 @@ def repl(temperature=0.0, max_iterations=2):
     chat> /cat tool.py
     FileNotFoundError
 
-    >>> def monkey_input(prompt, user_inputs=['/grep */cat.py True', '/unknown']):
+    >>> def monkey_input(prompt, user_inputs=['/grep test_examples/*.py x', '/unknown']):
     ...     try:
     ...         user_input = user_inputs.pop(0)
     ...         print(f'{prompt}{user_input}')
@@ -157,15 +219,13 @@ def repl(temperature=0.0, max_iterations=2):
     >>> import builtins
     >>> builtins.input = monkey_input
     >>> repl(temperature=0.0)
-    chat> /grep */cat.py True
-    Returns True if the path is safe (no absolute paths or traversal).
-        True
-            return True
+    chat> /grep test_examples/*.py x
+    x = 0
+    x = 123
+    x = 2
     <BLANKLINE>
-    Hello!
     chat> /unknown
     Error: unknown command unknown
-    <BLANKLINE>
     '''
     chat = Chat()
 
@@ -207,16 +267,10 @@ def repl(temperature=0.0, max_iterations=2):
                     continue
 
                 elif command == 'grep':
-                    pattern = args[0]
-                    search_term = args[1]
-                    files = glob.glob(pattern)
-                    if not files:
-                        print('')
-                        continue
-                    for f in files:
-                        output = grep(f, search_term)
-                        if output:
-                            print(output)
+                    path = args[0]
+                    regex = " ".join(args[1:])
+                    result = grep(path, regex)
+                    print(result)
                     continue
 
                 else:

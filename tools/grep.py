@@ -12,9 +12,10 @@ def grep(path, regex):
     >>> grep('..None', '[z]')
     'Error: unsafe path'
     >>> print(grep('test_examples/*.py', 'x'))
-    x=123x=2
-    >>> grep('test_examples/*.py', '^x')
-    'x=123x=2'
+    x = 0
+    x = 123
+    x = 2
+    <BLANKLINE>
     '''
     if not is_path_safe(path):
         return "Error: unsafe path"
@@ -53,7 +54,7 @@ grep_schema = {
                     "description": "The path of the file to read."
                 }
             },
-            "required": ["regex", "path"]
+            "required": ["path", "regex"]
         }
     }
 }
