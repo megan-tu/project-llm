@@ -22,9 +22,9 @@ def doctest(path):
     Expecting:
         '{"error": "Invalid expression"}'
     ok
-    1 item had no tests:
+    1 items had no tests:
         calculate
-    1 item passed all tests:
+    1 items passed all tests:
        3 tests in calculate.calculate
     3 tests in 2 items.
     3 passed and 0 failed.
