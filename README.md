@@ -8,13 +8,21 @@ Here's the link to my [PyPI project](https://pypi.org/project/cmc-csci40-MeganTu
 
 ## Installation and Usage:
 
-This example code shows how to install the package and uses the /ls command to list the files in the tools folder.
+This example code shows how to install the package, uses the /ls command to list the files in the tools folder, and demonstrates how the chatbot works in multiple rounds.
 
 ```
 $ pip install -i https://test.pypi.org/simple/ cmc-csci40-MeganTu
 $ chat
 chat> /ls tools/
-tools/__init__.py tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py
+tools/__init__.py tools/__pycache__ tools/calculate.py tools/cat.py tools/doctest.py tools/grep.py tools/ls.py tools/rm.py tools/util.py tools/write_file.py tools/write_files.py
+chat> My name is Bob
+Ahoy, Bob! Ye be sailin’ these digital seas with a fine name. May the wind be ever at yer back, matey!
+chat> I'm 23 years old.
+Aye, a spry 23 summers on the deck, Bob! May yer voyages be full o’ treasure and good rum!
+chat> What's my name?
+Yer name be Bob, matey!
+chat> How old am I?
+Ye be 23 years o’ age, matey!
 ```
 
 ![Project Gif Demo](https://github.com/megan-tu/project-llm/blob/master/demo/2026-04-18%2022.42.49.gif?raw=true)

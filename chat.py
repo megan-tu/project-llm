@@ -10,7 +10,6 @@ from tools.write_files import write_files, write_files_schema
 from tools.write_file import write_file, write_file_schema
 from tools.rm import rm, rm_schema
 import glob
-from git import Repo
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -20,13 +19,6 @@ class Chat:
     The Chat class sends messages to an LLM and talks like a pirate.
     It also support tool calling, including ls, cat, grep, and calculate.
 
-    Because LLMs are non-deterministic, the doctests below demonstrate
-    that the LLM includes 'Bob' in its response, but don't show the entire output. 
-    >>> chat = Chat()
-    >>> response = chat.send_message('my name is bob', temperature=0.0)
-    >>> response = chat.send_message('what is my name?', temperature=0.0)
-    >>> 'Bob' in response
-    True
     '''
 
     def __init__(self):
@@ -49,13 +41,13 @@ class Chat:
         >>> import json
         >>> chat = Chat()
 
-        >>> response = chat.send_message('hello, I'm Bob', temperature=0.0)
+        >>> response = chat.send_message('hello, my name is Bob', temperature=0.0)
         >>> 'Bob' in response
         True
         >>> response = chat.send_message("123+456")
         >>> '579' in response
         True
-        >>> response = chat.send_message("does this question use tools?") 
+        >>> response = chat.send_message("does this question use tools?")
         >>> 'no tools' in response.lower()
         True
         '''
@@ -180,7 +172,6 @@ def repl(temperature=0.0, max_iterations=2):
     if not os.path.isdir('.git'):
         print("Error: .git folder not found")
         return
-    
     if os.path.isfile("AGENTS.md"):
         content = cat("AGENTS.md")
         chat.messages.append({

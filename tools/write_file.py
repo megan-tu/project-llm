@@ -1,16 +1,16 @@
 from tools.write_files import write_files
-from tools.util import is_path_safe
+
 
 def write_file(path, contents, commit_message):
     '''
     Writes a single file and commits it using write_files.
-    >>> print(write_file('test_examples/file1.py', 'x=123', 'file1'))
+    >>> print(write_file('test_examples/file1.py', 'x = 123', 'file1'))
     1 item had no tests:
         file1
     0 tests in 1 item.
     0 passed.
     Test passed.
-    >>> print(write_file('test_examples/file2.txt', 'x=456', 'file2'))
+    >>> print(write_file('test_examples/file2.txt', 'x = 456', 'file2'))
     Wrote 1 files and committed.
 
     Does not support absolute paths or directory traversal
@@ -24,6 +24,7 @@ def write_file(path, contents, commit_message):
         [{'path': path, 'contents': contents}],
         commit_message
     )
+
 
 write_file_schema = {
     "type": "function",

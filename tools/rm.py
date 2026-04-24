@@ -3,6 +3,7 @@ import glob
 from git import Repo
 from tools.util import is_path_safe
 
+
 def rm(path):
     '''
     Deletes files matching a path or glob and commits it.
@@ -39,6 +40,7 @@ def rm(path):
         return f"Removed {len(removed_files)} file(s)"
     except Exception as e:
         return str(e)
+
 
 rm_schema = {
     "type": "function",
