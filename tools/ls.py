@@ -18,7 +18,7 @@ def ls(folder=None):
     ''
     '''
     if folder is None:
-        folder = ''
+        return ''
     if folder and not is_path_safe(folder):
         return "Error: unsafe path"
     if folder:
