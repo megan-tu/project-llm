@@ -28,31 +28,27 @@ def write_files(files, commit_message):
     >>> write_files([{"path": "../bad.py", "contents": "x = 1"}], "msg")
     'Error: unsafe path'
     '''
-
-    try:
-        for file in files:
-            if not is_path_safe(file['path']):
-                return "Error: unsafe path"
-        repo = Repo('.')
-        written_paths = []
-        doctest_outputs = []
-        for file in files:
-            path = file['path']
-            contents = file['contents']
-            with open(path, 'w', encoding='utf-8') as f:
-                if not contents.endswith('\n'):
-                    contents += '\n'
-                f.write(contents)
-            written_paths.append(path)
-            if path.endswith('.py'):
-                doctest_outputs.append(run_doctest(path))
-        repo.index.add(written_paths)
-        repo.index.commit(f"[docchat] {commit_message}")
-        if doctest_outputs:
-            return "\n\n".join(doctest_outputs)
-        return f"Wrote {len(written_paths)} files and committed."
-    except Exception as e:
-        return str(e)
+    for file in files:
+        if not is_path_safe(file['path']):
+            return "Error: unsafe path"
+    repo = Repo('.')
+    written_paths = []
+    doctest_outputs = []
+    for file in files:
+        path = file['path']
+        contents = file['contents']
+        with open(path, 'w', encoding='utf-8') as f:
+            if not contents.endswith('\n'):
+                contents += '\n'
+            f.write(contents)
+        written_paths.append(path)
+        if path.endswith('.py'):
+            doctest_outputs.append(run_doctest(path))
+    repo.index.add(written_paths)
+    repo.index.commit(f"[docchat] {commit_message}")
+    if doctest_outputs:
+        return "\n\n".join(doctest_outputs)
+    return f"Wrote {len(written_paths)} files and committed."
 
 
 write_files_schema = {

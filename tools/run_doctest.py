@@ -35,20 +35,15 @@ def doctest(path):
     'Error: unsafe path'
     >>> doctest('/etc/passwd')
     'Error: unsafe path'
-    >>> doctest(None)
-    "expected str, bytes or os.PathLike object"
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
-    try:
-        result = subprocess.run(
-            [sys.executable, '-m', 'doctest', '-v', path],
-            capture_output=True,
-            text=True
-        )
-        return (result.stdout + result.stderr).strip()
-    except Exception as e:
-        return str(e)
+    result = subprocess.run(
+        [sys.executable, '-m', 'doctest', '-v', path],
+        capture_output=True,
+        text=True
+    )
+    return (result.stdout + result.stderr).strip()
 
 
 doctest_schema = {

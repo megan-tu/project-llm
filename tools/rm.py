@@ -22,25 +22,22 @@ def rm(path):
     >>> rm('test_examples/*.does_not_exist')
     ''
     '''
-    try:
-        if not is_path_safe(path):
-            return "Error: unsafe path"
-        files = glob.glob(path)
-        if not files:
-            return ''
-        removed_files = []
-        for f in files:
-            if os.path.isfile(f):
-                os.remove(f)
-                removed_files.append(f)
-        if not removed_files:
-            return ''
-        repo = Repo('.')
-        repo.index.remove(removed_files)
-        repo.index.commit(f'[docchat] rm {path}')
-        return f"Removed {len(removed_files)} file(s)"
-    except Exception as e:
-        return str(e)
+    if not is_path_safe(path):
+        return "Error: unsafe path"
+    files = glob.glob(path)
+    if not files:
+        return ''
+    removed_files = []
+    for f in files:
+        if os.path.isfile(f):
+            os.remove(f)
+            removed_files.append(f)
+    if not removed_files:
+        return ''
+    repo = Repo('.')
+    repo.index.remove(removed_files)
+    repo.index.commit(f'[docchat] rm {path}')
+    return f"Removed {len(removed_files)} file(s)"
 
 
 rm_schema = {
