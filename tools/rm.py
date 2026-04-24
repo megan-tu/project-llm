@@ -17,6 +17,8 @@ def rm(path):
     'Error: unsafe path'
     >>> rm('no_such_file_*.txt')
     ''
+    >>> rm('test_examples/')
+    ''
     '''
     try:
         if not is_path_safe(path):
@@ -24,9 +26,6 @@ def rm(path):
         files = glob.glob(path)
         if not files:
             return ''
-        for f in files:
-            if not is_path_safe(f):
-                return "Error: unsafe path"
         removed_files = []
         for f in files:
             if os.path.isfile(f):

@@ -16,24 +16,25 @@ def grep(path, regex):
     x = 2
     x = 123
     <BLANKLINE>
+    >>> grep('*/bad_file.py', '[x]')
+    'FileNotFoundError'
+    >>> grep('test_examples/*.png', 'x')
+    'UnicodeDecodeError'
     '''
     if not is_path_safe(path):
         return "Error: unsafe path"
-    result = ''
-
     files = sorted(glob.glob(path))
-
+    if not files:
+        return 'FileNotFoundError'  
+    result = ''
     for file in files:
-        if not os.path.isfile(file):
-            continue
-
         try:
             with open(file) as f:
                 for line in f:
                     if re.search(regex, line):
                         result += line
-        except (FileNotFoundError, UnicodeDecodeError):
-            continue
+        except UnicodeDecodeError:
+            return "UnicodeDecodeError"
     return result
 
 
