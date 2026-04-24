@@ -21,7 +21,7 @@ def grep(path, regex):
         return "Error: unsafe path"
     result = ''
 
-    files = glob.glob(path)
+    files = sorted(glob.glob(path))
 
     for file in files:
         if not os.path.isfile(file):
