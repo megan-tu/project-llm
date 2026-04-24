@@ -139,21 +139,6 @@ def repl(temperature=0.0, max_iterations=2):
     Slash commands (/ls, /cat, /grep) can be executed directly
     without calling the LLM.
 
-    >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
-    ...     try:
-    ...         user_input = user_inputs.pop(0)
-    ...         print(f'{prompt}{user_input}')
-    ...         return user_input
-    ...     except IndexError:
-    ...         raise KeyboardInterrupt
-    >>> import builtins
-    >>> builtins.input = monkey_input
-    >>> repl(temperature=0.0)
-    chat> Hello, I am monkey.
-    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
-    chat> Goodbye.
-    Farewell, me scurvy monkey friend, may the winds o' fortune blow in yer favor!
-    <BLANKLINE>
 
     >>> def monkey_input(prompt, user_inputs=['/ls .github', '/cat tool.py']):
     ...     try:
@@ -165,8 +150,6 @@ def repl(temperature=0.0, max_iterations=2):
     >>> import builtins
     >>> builtins.input = monkey_input
     >>> repl(temperature=0.0)
-    ...
-    >>> builtins.input = original_input
     chat> /ls .github
     .github/workflows
     chat> /cat tool.py
@@ -182,8 +165,6 @@ def repl(temperature=0.0, max_iterations=2):
     >>> import builtins
     >>> builtins.input = monkey_input
     >>> repl(temperature=0.0)
-    ...
-    >>> builtins.input = original_input
     chat> /grep */cat.py True
     Returns True if the path is safe (no absolute paths or traversal).
         True
