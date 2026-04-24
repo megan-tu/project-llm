@@ -10,7 +10,7 @@ def ls(folder=None):
     'AGENTS.md README.md Trump_tweets_graph.png __pycache__ chat.py demo pyproject.toml requirements.txt test.txt test_examples test_projects tools'
     >>> ls('tools')
     'tools/__init__.py tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/rm.py tools/run_doctest.py tools/util.py tools/write_file.py tools/write_files.py'
-    >>> ls('..')
+    >>> ls('../secrets')
     'Error: unsafe path'
     >>> ls('/Users/megantu/CSCI040/docsum')
     'Error: unsafe path'
