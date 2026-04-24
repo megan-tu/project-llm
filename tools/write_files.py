@@ -8,13 +8,13 @@ def write_files(files, commit_message):
     This function writes multiple files and commits them.
 
     >>> print(write_files([{"path": "test_examples/example1.py", "contents": "x = 0"},{"path": "test_examples/example2.py", "contents": "x = 2"}], "examples"))
-    1 item had no tests:
+    1 items had no tests:
         example1
     0 tests in 1 item.
     0 passed.
     Test passed.
     <BLANKLINE>
-    1 item had no tests:
+    1 items had no tests:
         example2
     0 tests in 1 item.
     0 passed.

@@ -5,7 +5,7 @@ def write_file(path, contents, commit_message):
     '''
     Writes a single file and commits it using write_files.
     >>> print(write_file('test_examples/file1.py', 'x = 123', 'file1'))
-    1 item had no tests:
+    1 items had no tests:
         file1
     0 tests in 1 item.
     0 passed.
