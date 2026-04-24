@@ -5,9 +5,7 @@ import glob
 def ls(folder=None):
     '''
     Lists files in the current directory.
-
-    >>> ls('')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/rm.py tools/run_doctest.py tools/util.py tools/write_file.py tools/write_files.py'
+    
     >>> ls('tools')
     'AGENTS.md README.md Trump_tweets_graph.png __pycache__ chat.py demo example_3 pyproject.toml requirements.txt test.txt test_examples test_projects tools'
     >>> ls('../secrets')

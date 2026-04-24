@@ -23,7 +23,6 @@ def write_files(files, commit_message):
     Wrote 1 files and committed.
     >>> write_files([], "test")
     'Wrote 0 files and committed.'
-    ''
 
     Does not support absolute paths or directory traversal
     >>> write_files([{"path": "../bad.py", "contents": "x = 1"}], "msg")
