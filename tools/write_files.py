@@ -21,6 +21,8 @@ def write_files(files, commit_message):
     Test passed.
     >>> print(write_files([{"path": "test_examples/test1.txt", "contents": "x = 3"}], "txt files"))
     Wrote 1 files and committed.
+    >>> write_files([], "test")
+    ''
 
     Does not support absolute paths or directory traversal
     >>> write_files([{"path": "../bad.py", "contents": "x = 1"}], "msg")

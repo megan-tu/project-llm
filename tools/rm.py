@@ -19,6 +19,8 @@ def rm(path):
     ''
     >>> rm('test_examples/')
     ''
+    rm('test_examples/*.does_not_exist')
+    ''
     '''
     try:
         if not is_path_safe(path):
