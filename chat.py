@@ -5,7 +5,7 @@ from tools.calculate import calculate, calculate_schema
 from tools.ls import ls, ls_schema
 from tools.cat import cat, cat_schema
 from tools.grep import grep, grep_schema
-from tools.doctest import doctest, doctest_schema
+from tools.run_doctest import doctest, doctest_schema
 from tools.write_files import write_files, write_files_schema
 from tools.write_file import write_file, write_file_schema
 from tools.rm import rm, rm_schema
