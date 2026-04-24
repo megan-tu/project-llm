@@ -2,6 +2,7 @@ import subprocess
 import sys
 from tools.util import is_path_safe
 
+
 def doctest(path):
     """
     This function runs doctest with the --verbose flag and returns the output.
@@ -34,7 +35,6 @@ def doctest(path):
     'Error: unsafe path'
     >>> doctest('/etc/passwd')
     'Error: unsafe path'
-    
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
