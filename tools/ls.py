@@ -7,9 +7,9 @@ def ls(folder=None):
     Lists files in the current directory.
 
     >>> ls('')
-    'AGENTS.md README.md __pycache__ chat.py demo pyproject.toml requirements.txt test.txt test_examples test_projects tools'
+    'AGENTS.md README.md Trump_tweets_graph.png __init__.py __pycache__ build chat.py cmc_csci40_MeganTu.egg-info demo htmlcov markdown-project megan-tu.github.io pyproject.toml requirements.txt test test.txt test_examples test_projects tools venv'
     >>> ls('tools')
-    'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/util.py'
+    'tools/__init__.py tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/rm.py tools/run_doctest.py tools/util.py tools/write_file.py tools/write_files.py'
     >>> ls('..')
     'Error: unsafe path'
     >>> ls('/Users/megantu/CSCI040/docsum')
