@@ -1,5 +1,5 @@
 from git import Repo
-from tools.doctest import doctest as run_doctest
+from tools.run_doctest import doctest as run_doctest
 from tools.util import is_path_safe
 
 
