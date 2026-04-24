@@ -19,7 +19,7 @@ def rm(path):
     ''
     >>> rm('test_examples/')
     ''
-    rm('test_examples/*.does_not_exist')
+    >>> rm('test_examples/*.does_not_exist')
     ''
     '''
     try:
