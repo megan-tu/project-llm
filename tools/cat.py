@@ -11,7 +11,8 @@ def cat(file):
     >>> cat('..')
     'Error: unsafe path'
     >>> print(cat('test_examples/example2.py'))
-    x=2
+    x = 2
+    <BLANKLINE>
     """
 
     if not is_path_safe(file):
