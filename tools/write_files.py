@@ -10,7 +10,7 @@ def write_files(files, commit_message):
     >>> print(write_files([{"path": "test_examples/example1.py", "contents": "x = 0"},{"path": "test_examples/example2.py", "contents": "x = 2"}], "examples"))
     1 items had no tests:
         example1
-    0 tests in 1 ites.
+    0 tests in 1 items.
     0 passed and 0 failed.
     Test passed.
     <BLANKLINE>
