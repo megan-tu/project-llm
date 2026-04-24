@@ -9,7 +9,6 @@ from tools.run_doctest import doctest, doctest_schema
 from tools.write_files import write_files, write_files_schema
 from tools.write_file import write_file, write_file_schema
 from tools.rm import rm, rm_schema
-import glob
 from dotenv import load_dotenv
 load_dotenv()
 

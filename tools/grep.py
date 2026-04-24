@@ -1,4 +1,3 @@
-import os
 import glob
 import re
 from tools.util import is_path_safe
@@ -25,7 +24,7 @@ def grep(path, regex):
         return "Error: unsafe path"
     files = sorted(glob.glob(path))
     if not files:
-        return 'FileNotFoundError'  
+        return 'FileNotFoundError'
     result = ''
     for file in files:
         try:
