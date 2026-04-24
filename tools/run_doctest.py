@@ -35,6 +35,8 @@ def doctest(path):
     'Error: unsafe path'
     >>> doctest('/etc/passwd')
     'Error: unsafe path'
+    >>> doctest(None)
+    "expected str, bytes or os.PathLike object"
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
