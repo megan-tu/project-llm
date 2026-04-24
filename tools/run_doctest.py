@@ -27,7 +27,7 @@ def doctest(path):
     1 item passed all tests:
        3 tests in calculate.calculate
     3 tests in 2 items.
-    3 passed.
+    3 passed and 0 failed.
     Test passed.
 
     Does not support absolute paths or directory traversal

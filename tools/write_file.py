@@ -7,8 +7,8 @@ def write_file(path, contents, commit_message):
     >>> print(write_file('test_examples/file1.py', 'x = 123', 'file1'))
     1 items had no tests:
         file1
-    0 tests in 1 item.
-    0 passed.
+    0 tests in 1 items.
+    0 passed and 0 failed.
     Test passed.
     >>> print(write_file('test_examples/file2.txt', 'x = 456', 'file2'))
     Wrote 1 files and committed.
