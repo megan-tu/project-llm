@@ -15,7 +15,9 @@ def ls(folder=None):
     >>> ls('/Users/megantu/CSCI040/docsum')
     'Error: unsafe path'
     '''
-    if not is_path_safe(folder):
+    if folder is None:
+        folder = ''
+    if folder and not is_path_safe(folder):
         return "Error: unsafe path"
     if folder:
         result = ''
